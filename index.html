@@ -1,353 +1,256 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Grace to be Eve</title>
-  <link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Josefin+Sans:wght@300;500&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(180deg, #ffb6c1 0%, #ffd6cc 50%, #ffeef5 100%);
-      overflow: hidden;
-      font-family: 'Josefin Sans', sans-serif;
-      cursor: url('https://cur.cursors-4u.net/nature/nat-11/nat1052.cur'), auto;
-      animation: sunset 10s ease-in-out infinite alternate;
-    }
-    @keyframes sunset {
-      from { background: linear-gradient(180deg, #ffb6c1 0%, #ffd6cc 50%, #ffeef5 100%); }
-      to   { background: linear-gradient(180deg, #ffcce6 0%, #ffb380 50%, #fff0f5 100%); }
-    }
+<meta charset="UTF-8">
+<title>Grace to be Eve</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  body {
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(180deg,#ffdee9 0%,#fff0f5 50%,#ffe6f0 100%);
+    font-family:'Poppins',sans-serif;
+  }
 
-    .phone {
-      width: 450px;
-      height: 800px;
-      max-width: 95vw;
-      max-height: 95vh;
-      background: rgba(255,255,255,0.96);
-      border-radius: 40px;
-      box-shadow: 0 0 40px rgba(255,182,193,0.6);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      border: 12px solid #ffd6e6;
-      position: relative;
-    }
+  /* Phone frame */
+  .phone {
+    width:420px; height:820px;
+    background:#fff;
+    border-radius:40px;
+    box-shadow:0 0 40px rgba(255,150,180,.4);
+    overflow:hidden;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+  }
 
-    /* Status bar */
-    .status-bar {
-      height: 28px;
-      background: linear-gradient(to right, #ffccd5, #fff);
-      border-bottom: 1px solid #ffd6e6;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.8em;
-      padding: 0 12px;
-      color: #cc3366;
-      font-weight: bold;
-    }
-    .signal { display: flex; gap: 1px; align-items: flex-end; margin-right: 6px; }
-    .signal div { width: 3px; background:#cc3366; border-radius:1px; }
-    .signal div:nth-child(1){height:4px;}
-    .signal div:nth-child(2){height:6px;}
-    .signal div:nth-child(3){height:8px;}
-    .signal div:nth-child(4){height:10px;}
-    .battery { width: 28px; height: 14px; border: 2px solid #cc3366; border-radius: 3px; position: relative; padding: 1px; }
-    .battery::after { content:""; position:absolute; right:-6px; width:4px; height:7px; background:#cc3366; border-radius:1px; }
-    .battery-level { height: 100%; background:#cc3366; border-radius:2px; transition: width 0.3s ease; }
+  /* Notch */
+  .notch {
+    position:absolute;
+    top:0; left:50%;
+    transform:translateX(-50%);
+    width:180px; height:28px;
+    background:#111;
+    border-radius:0 0 20px 20px;
+    z-index:10;
+  }
 
-    /* Header */
-    .main-header {
-      text-align:center;
-      font-family:'Parisienne',cursive;
-      font-size:2.2em;
-      margin:12px 0;
-      color:#cc3366;
-      text-shadow:0 0 12px #ffccd5,0 0 25px #ff99aa;
-    }
+  /* Status bar */
+  .status-bar {
+    height:28px; padding:0 14px;
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:0.8em; font-weight:600; color:#cc3366;
+  }
+  .battery {
+    width:24px; height:12px; border:2px solid #cc3366; border-radius:3px; position:relative;
+  }
+  .battery::after {
+    content:""; position:absolute; right:-5px; top:2px;
+    width:3px; height:6px; background:#cc3366; border-radius:1px;
+  }
+  .battery-level {height:100%; background:#cc3366;}
 
-    /* Screens */
-    .screens { flex:1; display:flex; width:300%; transition: transform 0.6s ease, opacity 0.6s ease; }
-    .screen { width:100%; padding:18px; overflow-y:auto; }
+  /* App header */
+  .app-header {
+    font-size:1.3em; font-weight:600;
+    text-align:center; color:#cc3366;
+    padding:12px 0; border-bottom:1px solid #ffd6e6;
+  }
 
-    form { display:grid; gap:12px; margin-bottom:15px; }
-    input, button { padding:12px; border-radius:10px; border:1px solid #ffcce0; font-size:1em; }
-    input:focus { border-color:#ff80aa; box-shadow:0 0 10px rgba(255,128,170,0.5); }
-    button { background:linear-gradient(90deg,#ff99cc,#cc3366); color:white; font-weight:bold; cursor:pointer; }
+  /* Screens */
+  .screens {flex:1; display:flex; width:300%; transition:transform .5s;}
+  .screen {width:100%; padding:20px; overflow-y:auto;}
 
-    .buyer-list { background:rgba(255,255,255,0.7); border-radius:12px; padding:12px; box-shadow:inset 0 0 12px rgba(255,182,193,0.2); }
-    .buyer {
-      padding:10px;
-      border-bottom:1px dashed #ccc;
-      font-size:0.9em;
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:10px;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeInUp 0.6s forwards;
-    }
-    .buyer strong { font-family:'Parisienne',cursive; color:#cc3366; font-size:1.05em; }
-    .buyer .info { flex:1; }
-    .buyer:hover {
-      background: rgba(255,230,240,0.8);
-      border-radius: 10px;
-      box-shadow: 0 0 12px rgba(255,182,193,0.6);
-      transform: scale(1.02);
-      transition: all 0.3s ease;
-    }
+  /* Choice cards */
+  .choice {display:flex; flex-direction:column; gap:16px; margin-top:40px;}
+  .card {
+    background:#fff5f8;
+    border-radius:16px; padding:20px;
+    text-align:center; font-size:1.1em; color:#cc3366;
+    font-weight:600; cursor:pointer;
+    box-shadow:0 4px 10px rgba(255,150,180,.25);
+    transition:.3s;
+  }
+  .card:hover {transform:translateY(-3px);}
 
-    @keyframes fadeInUp {
-      to { opacity:1; transform: translateY(0); }
-    }
+  form {display:grid; gap:12px; margin-top:20px;}
+  input,select,button {
+    padding:12px; border-radius:10px;
+    border:1px solid #ffd6e6; font-size:0.95em;
+  }
+  input:focus,select:focus {border-color:#ff80aa; outline:none;}
+  button {
+    background:linear-gradient(90deg,#ff99cc,#cc3366);
+    color:#fff; font-weight:600; border:none; cursor:pointer;
+  }
 
-    .delete-btn {
-      background:#ff4d88;
-      border:none;
-      color:white;
-      padding:5px 8px;
-      border-radius:6px;
-      cursor:pointer;
-      font-size:0.8em;
-    }
+  /* Buyer list */
+  .buyer-list {background:#fff; border-radius:12px; padding:12px; box-shadow:inset 0 0 6px #ffe6f0;}
+  .buyer {padding:10px; border-bottom:1px solid #eee; font-size:0.9em;}
+  .buyer strong {color:#cc3366; font-weight:600; display:block; margin-bottom:4px;}
 
-    .progress { display:flex; gap:5px; margin-top:5px; }
-    .slot { font-size:1.4em; opacity:0.2; }
-    .slot.active { opacity:1; color:#ff3399; text-shadow:0 0 8px #ff66cc,0 0 20px #ff99ff; }
+  /* Rewards hearts */
+  .progress {display:flex; gap:6px; margin-top:6px;}
+  .heart {width:20px; height:20px; fill:none; stroke:#ff99bb; stroke-width:2;}
+  .heart.filled {fill:#ff4d88; stroke:#ff4d88;}
 
-    /* Search bar */
-    .search-wrap {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
-    #searchBar {
-      flex: 1;
-      padding: 10px;
-      border-radius: 10px;
-      border: 1px solid #ffcce0;
-      font-size: 0.95em;
-    }
-    #searchBtn {
-      background:#cc3366;
-      border:none;
-      border-radius:10px;
-      color:white;
-      padding: 10px 14px;
-      cursor:pointer;
-      font-size:0.9em;
-    }
+  /* Nav bar */
+  .nav {
+    display:flex; justify-content:space-around;
+    background:#fff0f5; border-top:1px solid #ffd6e6;
+    padding:8px 0;
+  }
+  .nav button {
+    background:none; border:none;
+    flex:1; text-align:center;
+    font-size:0.85em; font-weight:600;
+    color:#cc3366; cursor:pointer;
+    display:flex; flex-direction:column; align-items:center; gap:2px;
+  }
+  .nav button svg {width:20px; height:20px; fill:#cc3366;}
+  .nav button.active {color:#ff4d88;}
+  .nav button.active svg {fill:#ff4d88;}
 
-    /* Nav */
-    .nav { display:flex; justify-content:space-around; background:#fff0f5; border-top:2px solid #ffd6e6; padding:10px 0; }
-    .nav button { background:none; border:none; font-size:1em; color:#cc3366; font-weight:bold; flex:1; }
-    .nav button.active { color:#ff4d88; text-shadow:0 0 6px #ffd6e6; transform:scale(1.1); }
+  /* Popup */
+  .popup {position:fixed; inset:0; background:rgba(0,0,0,.4); display:none; justify-content:center; align-items:center;}
+  .popup-content {
+    background:#fff; padding:20px; border-radius:16px;
+    text-align:center; box-shadow:0 0 20px #ff99cc;
+    font-size:1.1em; color:#cc3366;
+  }
 
-    /* Popup */
-    .popup { position:fixed; top:0; left:0; width:100%; height:100%; display:none; justify-content:center; align-items:center; background:rgba(0,0,0,0.5); }
-    .popup-content { background:#fff; padding:24px; border-radius:20px; text-align:center; box-shadow:0 0 25px #ff99aa; color:#cc3366; font-size:1.1em; animation: fadeInUp 0.6s; }
-
-    /* Floating loves */
-    .love {
-      position: absolute;
-      font-size: 1.6em;
-      color: #ff3399;
-      text-shadow: 0 0 8px #ff66cc, 0 0 15px #ff99ff;
-      opacity: 0.8;
-      animation: floatUp 6s linear forwards;
-      pointer-events: none;
-    }
-    @keyframes floatUp {
-      0% {opacity:1; transform: translateY(0) scale(1);}
-      100% {opacity:0; transform: translateY(-320px) scale(1.6);}
-    }
-  </style>
+  /* Floating hearts */
+  .love {position:absolute; font-size:1.4em; color:#ff3399;
+    animation:floatUp 5s linear forwards; opacity:.8;}
+  @keyframes floatUp {0%{opacity:1; transform:translateY(0);}100%{opacity:0; transform:translateY(-280px);} }
+</style>
 </head>
 <body>
 
 <div class="phone">
-  <!-- Status Bar -->
+  <div class="notch"></div>
   <div class="status-bar">
-    <div style="display:flex; align-items:center;">
-      <div class="signal"><div></div><div></div><div></div><div></div></div>
-      <span id="time">--:--</span>
-    </div>
+    <div id="time">--:--</div>
     <div class="battery"><div class="battery-level" id="batteryLevel" style="width:100%"></div></div>
   </div>
+  <div class="app-header" id="mainHeader">Grace to be Eve</div>
 
-  <!-- Dynamic Header -->
-  <div class="main-header" id="mainHeader">Home</div>
-
-  <!-- Screens -->
   <div class="screens" id="screens">
     <!-- Home -->
     <div class="screen">
-      <form id="loyaltyForm">
-        <input type="text" id="name" placeholder="Full Name" required>
-        <input type="text" id="username" placeholder="Username" required>
-        <input type="date" id="date" required>
-        <input type="text" id="product" placeholder="Purchased Product" required>
-        <input type="text" id="total" placeholder="Total Purchase (IDR)" required>
+      <div class="choice">
+        <div class="card" onclick="showForm('new')">New Buyer</div>
+        <div class="card" onclick="showForm('existing')">Existing Buyer</div>
+      </div>
+
+      <form id="newBuyerForm" style="display:none;">
+        <input id="newName" placeholder="Full Name" required>
+        <input id="newUsername" placeholder="Username" required>
+        <input type="date" id="newDate" required>
+        <input id="newProduct" placeholder="Purchased Product" required>
+        <input id="newTotal" placeholder="Total Purchase (IDR)" required>
         <button type="submit">Submit</button>
+      </form>
+
+      <form id="existingBuyerForm" style="display:none;">
+        <select id="existingUser" required></select>
+        <input type="date" id="existDate" required>
+        <input id="existProduct" placeholder="Purchased Product" required>
+        <input id="existTotal" placeholder="Total Purchase (IDR)" required>
+        <button type="submit">Add Purchase</button>
       </form>
     </div>
 
     <!-- Buyers -->
-    <div class="screen">
-      <div class="search-wrap">
-        <input type="text" id="searchBar" placeholder="Search buyer by name or username...">
-        <button id="searchBtn">Search</button>
-      </div>
-      <div class="buyer-list" id="buyerList"></div>
-    </div>
-
+    <div class="screen"><div class="buyer-list" id="buyerList"></div></div>
     <!-- Rewards -->
-    <div class="screen">
-      <div class="buyer-list" id="rewardList"></div>
-    </div>
+    <div class="screen"><div class="buyer-list" id="rewardList"></div></div>
   </div>
 
-  <!-- Bottom nav -->
+  <!-- Nav -->
   <div class="nav">
-    <button id="navHome" class="active" onclick="showScreen(0,'Home')">Home</button>
-    <button id="navBuyers" onclick="showScreen(1,'List of Buyers')">Buyers</button>
-    <button id="navRewards" onclick="showScreen(2,'Rewards')">Rewards</button>
+    <button class="active" onclick="showScreen(0,'Grace to be Eve')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3l9 8h-3v10h-12v-10h-3z"/></svg>
+      Home
+    </button>
+    <button onclick="showScreen(1,'List of Buyers')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 11c1.7 0 3-1.3 3-3s-1.3-3-3-3-3 1.3-3 3 1.3 3 3 3zm-8 0c1.7 0 3-1.3 3-3S9.7 5 8 5 5 6.3 5 8s1.3 3 3 3zm0 2c-2.3 0-7 1.2-7 3.5V20h14v-3.5C15 14.2 10.3 13 8 13zm8 0c-.3 0-.7 0-1 .1 1.2.9 2 2.1 2 3.4V20h6v-3.5c0-2.3-4.7-3.5-7-3.5z"/></svg>
+      Buyers
+    </button>
+    <button onclick="showScreen(2,'Rewards')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 6h-3.17c.11-.31.17-.65.17-1 0-1.66-1.34-3-3-3-1.01 0-1.9.5-2.45 1.26-.55-.76-1.44-1.26-2.45-1.26-1.66 0-3 1.34-3 3 0 .35.06.69.17 1H4c-1.1 0-2 .9-2 2v2h20v-2c0-1.1-.9-2-2-2zm-18 6v8c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-8H2z"/></svg>
+      Rewards
+    </button>
   </div>
 </div>
 
 <!-- Popup -->
-<div class="popup" id="popup">
-  <div class="popup-content">
-    <h3>💖 Reward 💖</h3>
-    <p id="popupMsg"></p>
-    <button onclick="closePopup()">Close</button>
-  </div>
-</div>
+<div class="popup" id="popup"><div class="popup-content"><p id="popupMsg"></p><button onclick="closePopup()">Close</button></div></div>
 
 <script>
-  let buyers = JSON.parse(localStorage.getItem("buyers")) || {};
-  const formatIDR = new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',minimumFractionDigits:0});
+  let buyers=JSON.parse(localStorage.getItem("buyers"))||{};
+  const formatIDR=new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR'});
 
-  // Clock
-  function updateClock(){
-    const now = new Date();
-    let h = String(now.getHours()).padStart(2,"0");
-    let m = String(now.getMinutes()).padStart(2,"0");
-    document.getElementById('time').innerText = `${h}:${m}`;
-  }
+  function updateClock(){document.getElementById('time').innerText=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}
   setInterval(updateClock,1000); updateClock();
 
-  // Battery simulation
-  let battery=100;
-  setInterval(()=>{
-    battery = battery>0?battery-1:100;
-    document.getElementById('batteryLevel').style.width = battery+"%";
-  },60000);
+  let battery=100; setInterval(()=>{battery=battery>0?battery-1:100;document.getElementById('batteryLevel').style.width=battery+'%';},60000);
 
-  // Auto format IDR
-  const totalInput=document.getElementById('total');
-  totalInput.addEventListener('input',function(e){
-    let v=e.target.value.replace(/\D/g,'');
-    e.target.value=v?formatIDR.format(v):"";
-  });
+  ["newTotal","existTotal"].forEach(id=>document.getElementById(id).addEventListener('input',e=>{
+    let v=e.target.value.replace(/\D/g,''); e.target.value=v?formatIDR.format(v):"";
+  }));
 
-  // Submit form
-  document.getElementById('loyaltyForm').addEventListener('submit',function(e){
+  function saveBuyers(){localStorage.setItem("buyers",JSON.stringify(buyers));renderBuyers();renderRewards();updateDropdown();}
+
+  newBuyerForm.onsubmit=e=>{
     e.preventDefault();
-    const name=document.getElementById('name').value;
-    const username=document.getElementById('username').value;
-    const date=document.getElementById('date').value;
-    const product=document.getElementById('product').value;
-    const total=parseInt(document.getElementById('total').value.replace(/\D/g,''))||0;
+    const name=newName.value,u=newUsername.value,d=newDate.value,p=newProduct.value,t=parseInt(newTotal.value.replace(/\D/g,''))||0;
+    if(!buyers[u])buyers[u]={name,purchases:[]};
+    buyers[u].purchases.push({date:d,product:p,total:t});
+    saveBuyers(); spawnLove(); e.target.reset();
+    if(buyers[u].purchases.length===6)showPopup(buyers[u].name);
+  };
 
-    if(!buyers[username]) buyers[username]={name,purchases:[]};
-    buyers[username].purchases.push({date,product,total});
-    localStorage.setItem("buyers",JSON.stringify(buyers));
-    this.reset();
-    renderBuyers(); renderRewards(); spawnLove();
+  existingBuyerForm.onsubmit=e=>{
+    e.preventDefault();
+    const u=existingUser.value,d=existDate.value,p=existProduct.value,t=parseInt(existTotal.value.replace(/\D/g,''))||0;
+    buyers[u].purchases.push({date:d,product:p,total:t});
+    saveBuyers(); spawnLove(); e.target.reset();
+    if(buyers[u].purchases.length===6)showPopup(buyers[u].name);
+  };
 
-    if(buyers[username].purchases.length===6){
-      document.getElementById('popupMsg').innerText=`Congrats ${buyers[username].name}, you collected 6 stamps! 🎁`;
-      document.getElementById('popup').style.display='flex';
-    }
-  });
-
-  // Render Buyers
   function renderBuyers(){
-    const list=document.getElementById('buyerList');
-    const search=document.getElementById('searchBar').value.toLowerCase();
-    list.innerHTML="";
-    Object.keys(buyers).forEach((u,i)=>{
+    buyerList.innerHTML="";
+    Object.keys(buyers).forEach(u=>{
       const b=buyers[u];
-      if(b.name.toLowerCase().includes(search) || u.toLowerCase().includes(search)){
-        const div=document.createElement('div');
-        div.className="buyer";
-        div.style.animationDelay=`${i*0.1}s`; // staggered animation
-        div.innerHTML=`<div class="info"><strong>${b.name}</strong> (@${u})<br>${b.purchases.map(p=>`${p.date} - ${p.product} (${formatIDR.format(p.total)})`).join('<br>')}</div>
-                       <button class="delete-btn" onclick="deleteUser('${u}')">Delete</button>`;
-        list.appendChild(div);
-      }
+      buyerList.innerHTML+=`<div class="buyer"><strong>${b.name}</strong> (@${u})<br>${b.purchases.map(p=>`${p.date} - ${p.product} (${formatIDR.format(p.total)})`).join('<br>')}</div>`;
     });
   }
 
-  // Render Rewards
   function renderRewards(){
-    const list=document.getElementById('rewardList');
-    list.innerHTML="";
-    Object.keys(buyers).forEach((u,i)=>{
+    rewardList.innerHTML="";
+    Object.keys(buyers).forEach(u=>{
       const b=buyers[u];
-      const div=document.createElement('div');
-      div.className="buyer";
-      div.style.animationDelay=`${i*0.1}s`;
-      div.innerHTML=`<div class="info"><strong>${b.name}</strong> (@${u})<br>
-        <div class="progress">${[...Array(6)].map((_,i)=>`<span class="slot ${i<b.purchases.length?'active':''}">❤</span>`).join('')}</div></div>`;
-      list.appendChild(div);
+      const hearts=[...Array(6)].map((_,i)=>`
+        <svg class="heart ${i<b.purchases.length?'filled':''}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M12 21s-6.7-5.1-10-9.4C-1.1 7.2 2.4 2 7.5 2c2.3 0 4.1 1.3 4.5 3.1C12.4 3.3 14.2 2 16.5 2 21.6 2 25.1 7.2 22 11.6 18.7 15.9 12 21 12 21z"/>
+        </svg>`).join('');
+      rewardList.innerHTML+=`<div class="buyer"><strong>${b.name}</strong> (@${u})<br><div class="progress">${hearts}</div></div>`;
     });
   }
 
-  function deleteUser(username){
-    if(confirm(`Delete ${buyers[username].name}?`)){
-      delete buyers[username];
-      localStorage.setItem("buyers",JSON.stringify(buyers));
-      renderBuyers(); renderRewards();
-    }
-  }
+  function updateDropdown(){existingUser.innerHTML="";Object.keys(buyers).forEach(u=>{existingUser.innerHTML+=`<option value="${u}">${buyers[u].name} (@${u})</option>`;});}
+  function showForm(t){newBuyerForm.style.display=t==="new"?"block":"none";existingBuyerForm.style.display=t==="existing"?"block":"none";}
+  function showScreen(i,t){screens.style.transform=`translateX(-${i*100}%)`;document.querySelectorAll('.nav button').forEach((b,j)=>b.classList.toggle('active',j===i));mainHeader.innerText=t;if(i===1)renderBuyers();if(i===2)renderRewards();}
+  function showPopup(n){popupMsg.innerText=`Congrats ${n}, you collected 6 stamps! 🎁`;popup.style.display='flex';}
+  function closePopup(){popup.style.display='none';}
+  function spawnLove(){const l=document.createElement("div");l.className="love";l.innerText="❤";l.style.left=Math.random()*350+"px";l.style.top="700px";document.querySelector(".phone").appendChild(l);setTimeout(()=>l.remove(),6000);}
+  setInterval(spawnLove,3500);
 
-  function closePopup(){document.getElementById('popup').style.display='none';}
-
-  function showScreen(i,title){
-    const screens=document.getElementById('screens');
-    screens.style.opacity="0.5";
-    setTimeout(()=>{screens.style.transform=`translateX(-${i*100}%)`; screens.style.opacity="1";},200);
-    document.querySelectorAll('.nav button').forEach(btn=>btn.classList.remove('active'));
-    document.querySelectorAll('.nav button')[i].classList.add('active');
-    document.getElementById('mainHeader').innerText=title;
-    if(i===1) renderBuyers();
-    if(i===2) renderRewards();
-  }
-
-  // Floating hearts
-  function spawnLove(){
-    const love=document.createElement("div");
-    love.className="love";
-    love.innerText="❤";
-    love.style.left=Math.random()*350+"px";
-    love.style.top="750px";
-    document.querySelector(".phone").appendChild(love);
-    setTimeout(()=>love.remove(),6000);
-  }
-  setInterval(spawnLove,2500);
-
-  document.getElementById('searchBar').addEventListener('input',renderBuyers);
-  document.getElementById('searchBtn').addEventListener('click',function(e){e.preventDefault();renderBuyers();});
-
-  renderBuyers(); renderRewards();
+  renderBuyers();renderRewards();updateDropdown();
 </script>
-
 </body>
 </html>
