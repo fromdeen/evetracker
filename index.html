@@ -4,132 +4,81 @@
 <meta charset="UTF-8">
 <title>Grace to be Eve</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <style>
   body {
-    margin:0;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+    margin:0; height:100vh;
+    display:flex; justify-content:center; align-items:center;
     background:linear-gradient(180deg,#ffdee9 0%,#fff0f5 50%,#ffe6f0 100%);
     font-family:'Poppins',sans-serif;
   }
-
-  /* Phone frame */
   .phone {
     width:420px; height:820px;
-    background:#fff;
-    border-radius:40px;
+    background:#fff; border-radius:40px;
     box-shadow:0 0 40px rgba(255,150,180,.4);
-    overflow:hidden;
+    overflow:hidden; display:flex; flex-direction:column;
     position:relative;
-    display:flex;
-    flex-direction:column;
   }
-
-  /* Notch */
   .notch {
-    position:absolute;
-    top:0; left:50%;
-    transform:translateX(-50%);
-    width:180px; height:28px;
-    background:#111;
-    border-radius:0 0 20px 20px;
-    z-index:10;
+    position:absolute; top:0; left:50%; transform:translateX(-50%);
+    width:180px; height:28px; background:#111;
+    border-radius:0 0 20px 20px; z-index:10;
   }
-
-  /* Status bar */
   .status-bar {
     height:28px; padding:0 14px;
     display:flex; justify-content:space-between; align-items:center;
     font-size:0.8em; font-weight:600; color:#cc3366;
   }
-  .battery {
-    width:24px; height:12px; border:2px solid #cc3366; border-radius:3px; position:relative;
-  }
-  .battery::after {
-    content:""; position:absolute; right:-5px; top:2px;
-    width:3px; height:6px; background:#cc3366; border-radius:1px;
-  }
-  .battery-level {height:100%; background:#cc3366;}
-
-  /* App header */
-  .app-header {
-    font-size:1.3em; font-weight:600;
-    text-align:center; color:#cc3366;
-    padding:12px 0; border-bottom:1px solid #ffd6e6;
-  }
-
-  /* Screens */
-  .screens {flex:1; display:flex; width:300%; transition:transform .5s;}
-  .screen {width:100%; padding:20px; overflow-y:auto;}
-
-  /* Choice cards */
-  .choice {
-    display:flex; flex-direction:column; gap:16px;
-    margin-top:120px; /* diturunkan agar center */
-    align-items:center;
-  }
-  .card {
-    background:#fff5f8;
-    border-radius:16px; padding:20px 30px;
-    text-align:center; font-size:1.1em; color:#cc3366;
-    font-weight:600; cursor:pointer;
-    box-shadow:0 4px 10px rgba(255,150,180,.25);
-    transition:.3s; width:70%;
-  }
+  .battery {width:24px;height:12px;border:2px solid #cc3366;border-radius:3px;position:relative;}
+  .battery::after {content:"";position:absolute;right:-5px;top:2px;width:3px;height:6px;background:#cc3366;}
+  .battery-level {height:100%;background:#cc3366;}
+  .app-header {font-size:1.3em;font-weight:600;text-align:center;color:#cc3366;
+    padding:12px 0;border-bottom:1px solid #ffd6e6;}
+  .screens {flex:1;display:flex;width:300%;transition:transform .5s;}
+  .screen {width:100%;padding:20px;overflow-y:auto;}
+  .choice {display:flex;flex-direction:column;gap:16px;margin-top:120px;align-items:center;}
+  .card {background:#fff5f8;border-radius:16px;padding:20px 30px;text-align:center;font-size:1.1em;
+    color:#cc3366;font-weight:600;cursor:pointer;box-shadow:0 4px 10px rgba(255,150,180,.25);width:70%;}
   .card:hover {transform:translateY(-3px);}
-
-  form {display:grid; gap:12px; margin-top:20px;}
-  input,select,button {
-    padding:12px; border-radius:10px;
-    border:1px solid #ffd6e6; font-size:0.95em;
-  }
-  input:focus,select:focus {border-color:#ff80aa; outline:none;}
-  button {
-    background:linear-gradient(90deg,#ff99cc,#cc3366);
-    color:#fff; font-weight:600; border:none; cursor:pointer;
-  }
-
-  /* Buyer list */
-  .buyer-list {background:#fff; border-radius:12px; padding:12px; box-shadow:inset 0 0 6px #ffe6f0;}
-  .buyer {padding:10px; border-bottom:1px solid #eee; font-size:0.9em;}
-  .buyer strong {color:#cc3366; font-weight:600; display:block; margin-bottom:4px;}
-
-  /* Rewards hearts */
-  .progress {display:flex; gap:6px; margin-top:6px;}
-  .heart {width:20px; height:20px; fill:none; stroke:#ff99bb; stroke-width:2;}
-  .heart.filled {fill:#ff4d88; stroke:#ff4d88;}
-
-  /* Nav bar */
-  .nav {
-    display:flex; justify-content:space-around;
-    background:#fff0f5; border-top:1px solid #ffd6e6;
-    padding:8px 0;
-  }
-  .nav button {
-    background:none; border:none;
-    flex:1; text-align:center;
-    font-size:0.85em; font-weight:600;
-    color:#cc3366; cursor:pointer;
-    display:flex; flex-direction:column; align-items:center; gap:2px;
-  }
-  .nav button svg {width:20px; height:20px; fill:#cc3366;}
+  form {display:grid;gap:12px;margin-top:20px;}
+  input,select,button {padding:12px;border-radius:10px;border:1px solid #ffd6e6;font-size:0.95em;}
+  button {background:linear-gradient(90deg,#ff99cc,#cc3366);color:#fff;font-weight:600;border:none;cursor:pointer;}
+  .buyer-list {background:#fff;border-radius:12px;padding:12px;box-shadow:inset 0 0 6px #ffe6f0;}
+  .buyer {padding:12px;border-bottom:1px solid #eee;font-size:0.9em;}
+  .buyer strong {color:#cc3366;font-weight:600;display:block;margin-bottom:6px;}
+  .purchase {display:flex;justify-content:space-between;align-items:center;padding:4px 0;}
+  .delete-tx {background:none;border:none;color:#ff4d88;cursor:pointer;}
+  .progress {display:flex;gap:6px;margin-top:6px;}
+  .heart {width:20px;height:20px;fill:none;stroke:#ff99bb;stroke-width:2;}
+  .heart.filled {fill:#ff4d88;stroke:#ff4d88;}
+  .nav {display:flex;justify-content:space-around;background:#fff0f5;border-top:1px solid #ffd6e6;padding:8px 0;}
+  .nav button {background:none;border:none;flex:1;text-align:center;font-size:0.85em;font-weight:600;
+    color:#cc3366;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;}
+  .nav button .material-icons {font-size:22px;}
   .nav button.active {color:#ff4d88;}
-  .nav button.active svg {fill:#ff4d88;}
-
-  /* Popup */
-  .popup {position:fixed; inset:0; background:rgba(0,0,0,.4); display:none; justify-content:center; align-items:center;}
-  .popup-content {
-    background:#fff; padding:20px; border-radius:16px;
-    text-align:center; box-shadow:0 0 20px #ff99cc;
-    font-size:1.1em; color:#cc3366;
-  }
-
+  .nav button.active .material-icons {color:#ff4d88;}
+  .popup {position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;justify-content:center;align-items:center;}
+  .popup-content {background:#fff;padding:20px;border-radius:16px;text-align:center;
+    box-shadow:0 0 20px #ff99cc;font-size:1.1em;color:#cc3366;}
+  .popup-content .material-icons {font-size:40px;color:#ff4d88;margin-bottom:10px;}
+  .search-bar {margin-bottom:10px;}
+  .search-bar input {width:100%;padding:10px;border-radius:8px;border:1px solid #ffd6e6;}
   /* Floating hearts */
-  .love {position:absolute; font-size:1.4em; color:#ff3399;
-    animation:floatUp 5s linear forwards; opacity:.8;}
-  @keyframes floatUp {0%{opacity:1; transform:translateY(0);}100%{opacity:0; transform:translateY(-280px);} }
+  .floating-heart {
+    position:absolute;
+    bottom:40px;
+    font-size:28px;
+    color:#ff4d88;
+    text-shadow:0 0 6px rgba(255,100,150,0.6);
+    opacity:0.9;
+    animation:floatUp 6s linear forwards;
+    pointer-events:none;
+    z-index:0;
+  }
+  @keyframes floatUp {
+    0%{transform:translateY(0) scale(1);opacity:1;}
+    100%{transform:translateY(-300px) scale(1.6);opacity:0;}
+  }
 </style>
 </head>
 <body>
@@ -149,7 +98,6 @@
         <div class="card" onclick="showForm('new')">New Buyer</div>
         <div class="card" onclick="showForm('existing')">Existing Buyer</div>
       </div>
-
       <form id="newBuyerForm" style="display:none;">
         <input id="newName" placeholder="Full Name" required>
         <input id="newUsername" placeholder="Username" required>
@@ -158,7 +106,6 @@
         <input id="newTotal" type="number" placeholder="Total Purchase (IDR)" required>
         <button type="submit">Submit</button>
       </form>
-
       <form id="existingBuyerForm" style="display:none;">
         <select id="existingUser" required></select>
         <input type="date" id="existDate" required>
@@ -169,86 +116,152 @@
     </div>
 
     <!-- Buyers -->
-    <div class="screen"><div class="buyer-list" id="buyerList"></div></div>
+    <div class="screen">
+      <div class="search-bar"><input type="text" id="searchInput" placeholder="Search username..."></div>
+      <div class="buyer-list" id="buyerList"></div>
+    </div>
+
     <!-- Rewards -->
     <div class="screen"><div class="buyer-list" id="rewardList"></div></div>
   </div>
 
   <!-- Nav -->
   <div class="nav">
-    <button class="active" onclick="showScreen(0,'Grace to be Eve')">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3l9 8h-3v10h-12v-10h-3z"/></svg>
-      Home
-    </button>
-    <button onclick="showScreen(1,'List of Buyers')">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 11c1.7 0 3-1.3 3-3s-1.3-3-3-3-3 1.3-3 3 1.3 3 3 3zm-8 0c1.7 0 3-1.3 3-3S9.7 5 8 5 5 6.3 5 8s1.3 3 3 3zm0 2c-2.3 0-7 1.2-7 3.5V20h14v-3.5C15 14.2 10.3 13 8 13zm8 0c-.3 0-.7 0-1 .1 1.2.9 2 2.1 2 3.4V20h6v-3.5c0-2.3-4.7-3.5-7-3.5z"/></svg>
-      Buyers
-    </button>
-    <button onclick="showScreen(2,'Rewards')">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 6h-3.17c.11-.31.17-.65.17-1 0-1.66-1.34-3-3-3-1.01 0-1.9.5-2.45 1.26-.55-.76-1.44-1.26-2.45-1.26-1.66 0-3 1.34-3 3 0 .35.06.69.17 1H4c-1.1 0-2 .9-2 2v2h20v-2c0-1.1-.9-2-2-2zm-18 6v8c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-8H2z"/></svg>
-      Rewards
-    </button>
+    <button class="active" onclick="showScreen(0,'Grace to be Eve')"><span class="material-icons">home</span>Home</button>
+    <button onclick="showScreen(1,'List of Buyers')"><span class="material-icons">people</span>Buyers</button>
+    <button onclick="showScreen(2,'Rewards')"><span class="material-icons">card_giftcard</span>Rewards</button>
   </div>
 </div>
 
 <!-- Popup -->
-<div class="popup" id="popup"><div class="popup-content"><p id="popupMsg"></p><button onclick="closePopup()">Close</button></div></div>
+<div class="popup" id="popup">
+  <div class="popup-content">
+    <span class="material-icons">card_giftcard</span>
+    <p id="popupMsg"></p>
+    <button onclick="closePopup()">Close</button>
+  </div>
+</div>
 
-<script>
-  let buyers=JSON.parse(localStorage.getItem("buyers"))||{};
-  const formatIDR=new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR'});
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+import { getDatabase, ref, set, push, onValue, remove } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
 
-  function updateClock(){document.getElementById('time').innerText=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}
-  setInterval(updateClock,1000); updateClock();
+// 🔑 Ganti databaseURL sesuai project Firebase kamu
+const firebaseConfig = {
+  apiKey: "AIzaSyD1GAFeHLJOsjjUzuhb2Uiz_bAJFeelgBo",
+  authDomain: "evetracker-275cf.firebaseapp.com",
+  databaseURL: "https://evetracker-275cf-default-rtdb.firebaseio.com",
+  projectId: "evetracker-275cf",
+  storageBucket: "evetracker-275cf.appspot.com",
+  messagingSenderId: "126245705022",
+  appId: "1:126245705022:web:dd4fdc886ff25c7c32886f",
+  measurementId: "G-7T553PB0MQ"
+};
 
-  let battery=100; setInterval(()=>{battery=battery>0?battery-1:100;document.getElementById('batteryLevel').style.width=battery+'%';},60000);
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
-  function saveBuyers(){localStorage.setItem("buyers",JSON.stringify(buyers));renderBuyers();renderRewards();updateDropdown();}
+const formatIDR=new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR'});
+let buyers={};
 
-  newBuyerForm.onsubmit=e=>{
-    e.preventDefault();
-    const name=newName.value,u=newUsername.value,d=newDate.value,p=newProduct.value;
-    const t=parseInt(newTotal.value)||0;
-    if(!buyers[u])buyers[u]={name,purchases:[]};
-    buyers[u].purchases.push({date:d,product:p,total:t});
-    saveBuyers(); e.target.reset();
-    if(buyers[u].purchases.length===6)showPopup(buyers[u].name);
-  };
+// realtime listener
+onValue(ref(db,"buyers"),snapshot=>{
+  buyers=snapshot.val()||{};
+  renderBuyers();renderRewards();updateDropdown();
+});
 
-  existingBuyerForm.onsubmit=e=>{
-    e.preventDefault();
-    const u=existingUser.value,d=existDate.value,p=existProduct.value;
-    const t=parseInt(existTotal.value)||0;
-    buyers[u].purchases.push({date:d,product:p,total:t});
-    saveBuyers(); e.target.reset();
-    if(buyers[u].purchases.length===6)showPopup(buyers[u].name);
-  };
+// save new buyer
+newBuyerForm.onsubmit=e=>{
+  e.preventDefault();
+  const name=newName.value,u=newUsername.value,d=newDate.value,p=newProduct.value,t=parseInt(newTotal.value)||0;
+  if(!buyers[u]){set(ref(db,"buyers/"+u),{name:name});}
+  const tx=push(ref(db,"buyers/"+u+"/purchases"));
+  set(tx,{date:d,product:p,total:t});
+  spawnHeart();
+  e.target.reset();
+};
 
-  function renderBuyers(){
-    buyerList.innerHTML="";
-    Object.keys(buyers).forEach(u=>{
-      const b=buyers[u];
-      buyerList.innerHTML+=`<div class="buyer"><strong>${b.name}</strong> (@${u})<br>${b.purchases.map(p=>`${p.date} - ${p.product} (${formatIDR.format(p.total)})`).join('<br>')}</div>`;
-    });
-  }
+// save existing buyer
+existingBuyerForm.onsubmit=e=>{
+  e.preventDefault();
+  const u=existingUser.value,d=existDate.value,p=existProduct.value,t=parseInt(existTotal.value)||0;
+  const tx=push(ref(db,"buyers/"+u+"/purchases"));
+  set(tx,{date:d,product:p,total:t});
+  spawnHeart();
+  e.target.reset();
+};
 
-  function renderRewards(){
-    rewardList.innerHTML="";
-    Object.keys(buyers).forEach(u=>{
-      const b=buyers[u];
-      const hearts=[...Array(6)].map((_,i)=>`
-        <svg class="heart ${i<b.purchases.length?'filled':''}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <path d="M12 21s-6.7-5.1-10-9.4C-1.1 7.2 2.4 2 7.5 2c2.3 0 4.1 1.3 4.5 3.1C12.4 3.3 14.2 2 16.5 2 21.6 2 25.1 7.2 22 11.6 18.7 15.9 12 21 12 21z"/>
-        </svg>`).join('');
-      rewardList.innerHTML+=`<div class="buyer"><strong>${b.name}</strong> (@${u})<br><div class="progress">${hearts}</div></div>`;
-    });
-  }
+function deleteTransaction(user,txId){ remove(ref(db,"buyers/"+user+"/purchases/"+txId)); }
 
-  function updateDropdown(){existingUser.innerHTML="";Object.keys(buyers).forEach(u=>{existingUser.innerHTML+=`<option value="${u}">${buyers[u].name} (@${u})</option>`;});}
-  function showForm(t){newBuyerForm.style.display=t==="new"?"block":"none";existingBuyerForm.style.display=t==="existing"?"block":"none";}
-  function showScreen(i,t){screens.style.transform=`translateX(-${i*100}%)`;document.querySelectorAll('.nav button').forEach((b,j)=>b.classList.toggle('active',j===i));mainHeader.innerText=t;if(i===1)renderBuyers();if(i===2)renderRewards();}
-  function showPopup(n){popupMsg.innerText=`Congrats ${n}, you collected 6 stamps! 🎁`;popup.style.display='flex';}
-  function closePopup(){popup.style.display='none';}
+function renderBuyers(filter=""){
+  buyerList.innerHTML="";
+  Object.keys(buyers).forEach(u=>{
+    if(!u.toLowerCase().includes(filter))return;
+    const b=buyers[u];
+    let txHTML="";
+    if(b.purchases){
+      Object.keys(b.purchases).forEach(id=>{
+        const p=b.purchases[id];
+        txHTML+=`<div class="purchase"><span>${p.date} - ${p.product} (${formatIDR.format(p.total)})</span>
+          <button class="delete-tx material-icons" onclick="deleteTransaction('${u}','${id}')">delete</button></div>`;
+      });
+    }
+    buyerList.innerHTML+=`<div class="buyer"><strong>${b.name}</strong> (@${u})${txHTML}</div>`;
+  });
+}
+
+function renderRewards(){
+  rewardList.innerHTML="";
+  Object.keys(buyers).forEach(u=>{
+    const b=buyers[u];const count=b.purchases?Object.keys(b.purchases).length:0;
+    if(count===6) showPopup(b.name);
+    const hearts=[...Array(6)].map((_,i)=>`<svg class="heart ${i<count?'filled':''}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 21s-6.7-5.1-10-9.4C-1.1 7.2 2.4 2 7.5 2c2.3 0 4.1 1.3 4.5 3.1C12.4 3.3 14.2 2 16.5 2 21.6 2 25.1 7.2 22 11.6 18.7 15.9 12 21 12 21z"/></svg>`).join('');
+    rewardList.innerHTML+=`<div class="buyer"><strong>${b.name}</strong> (@${u})<br><div class="progress">${hearts}</div></div>`;
+  });
+}
+
+function updateDropdown(){
+  existingUser.innerHTML="";
+  Object.keys(buyers).forEach(u=>{
+    existingUser.innerHTML+=`<option value="${u}">${buyers[u].name} (@${u})</option>`;
+  });
+}
+
+searchInput.addEventListener('input',e=>{renderBuyers(e.target.value.toLowerCase());});
+
+// UI helpers
+function showForm(t){newBuyerForm.style.display=t==="new"?"block":"none";existingBuyerForm.style.display=t==="existing"?"block":"none";}
+function showScreen(i,t){screens.style.transform=`translateX(-${i*100}%)`;document.querySelectorAll('.nav button').forEach((b,j)=>b.classList.toggle('active',j===i));mainHeader.innerText=t;}
+function showPopup(n){popupMsg.innerText=`Congrats ${n}, you collected 6 stamps!`;popup.style.display='flex';}
+function closePopup(){popup.style.display='none';}
+
+// Floating hearts
+function spawnHeart(){
+  const phone=document.querySelector(".phone");
+  const heart=document.createElement("span");
+  heart.className="floating-heart material-icons";
+  heart.style.left=Math.random()*350+"px";
+  heart.textContent="favorite";
+  phone.appendChild(heart);
+  setTimeout(()=>heart.remove(),6000);
+}
+setInterval(spawnHeart,5000);
+
+// Expose functions to window
+window.showForm=showForm;
+window.showScreen=showScreen;
+window.closePopup=closePopup;
+window.deleteTransaction=deleteTransaction;
+
+// Clock updater
+function updateClock(){
+  const now=new Date();
+  const hh=String(now.getHours()).padStart(2,'0');
+  const mm=String(now.getMinutes()).padStart(2,'0');
+  document.getElementById("time").innerText=`${hh}:${mm}`;
+}
+setInterval(updateClock,1000);
+updateClock();
 </script>
 </body>
 </html>
