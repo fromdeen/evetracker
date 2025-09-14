@@ -65,14 +65,18 @@
   .screen {width:100%; padding:20px; overflow-y:auto;}
 
   /* Choice cards */
-  .choice {display:flex; flex-direction:column; gap:16px; margin-top:40px;}
+  .choice {
+    display:flex; flex-direction:column; gap:16px;
+    margin-top:120px; /* diturunkan agar center */
+    align-items:center;
+  }
   .card {
     background:#fff5f8;
-    border-radius:16px; padding:20px;
+    border-radius:16px; padding:20px 30px;
     text-align:center; font-size:1.1em; color:#cc3366;
     font-weight:600; cursor:pointer;
     box-shadow:0 4px 10px rgba(255,150,180,.25);
-    transition:.3s;
+    transition:.3s; width:70%;
   }
   .card:hover {transform:translateY(-3px);}
 
@@ -151,7 +155,7 @@
         <input id="newUsername" placeholder="Username" required>
         <input type="date" id="newDate" required>
         <input id="newProduct" placeholder="Purchased Product" required>
-        <input id="newTotal" placeholder="Total Purchase (IDR)" required>
+        <input id="newTotal" type="number" placeholder="Total Purchase (IDR)" required>
         <button type="submit">Submit</button>
       </form>
 
@@ -159,7 +163,7 @@
         <select id="existingUser" required></select>
         <input type="date" id="existDate" required>
         <input id="existProduct" placeholder="Purchased Product" required>
-        <input id="existTotal" placeholder="Total Purchase (IDR)" required>
+        <input id="existTotal" type="number" placeholder="Total Purchase (IDR)" required>
         <button type="submit">Add Purchase</button>
       </form>
     </div>
@@ -199,26 +203,24 @@
 
   let battery=100; setInterval(()=>{battery=battery>0?battery-1:100;document.getElementById('batteryLevel').style.width=battery+'%';},60000);
 
-  ["newTotal","existTotal"].forEach(id=>document.getElementById(id).addEventListener('input',e=>{
-    let v=e.target.value.replace(/\D/g,''); e.target.value=v?formatIDR.format(v):"";
-  }));
-
   function saveBuyers(){localStorage.setItem("buyers",JSON.stringify(buyers));renderBuyers();renderRewards();updateDropdown();}
 
   newBuyerForm.onsubmit=e=>{
     e.preventDefault();
-    const name=newName.value,u=newUsername.value,d=newDate.value,p=newProduct.value,t=parseInt(newTotal.value.replace(/\D/g,''))||0;
+    const name=newName.value,u=newUsername.value,d=newDate.value,p=newProduct.value;
+    const t=parseInt(newTotal.value)||0;
     if(!buyers[u])buyers[u]={name,purchases:[]};
     buyers[u].purchases.push({date:d,product:p,total:t});
-    saveBuyers(); spawnLove(); e.target.reset();
+    saveBuyers(); e.target.reset();
     if(buyers[u].purchases.length===6)showPopup(buyers[u].name);
   };
 
   existingBuyerForm.onsubmit=e=>{
     e.preventDefault();
-    const u=existingUser.value,d=existDate.value,p=existProduct.value,t=parseInt(existTotal.value.replace(/\D/g,''))||0;
+    const u=existingUser.value,d=existDate.value,p=existProduct.value;
+    const t=parseInt(existTotal.value)||0;
     buyers[u].purchases.push({date:d,product:p,total:t});
-    saveBuyers(); spawnLove(); e.target.reset();
+    saveBuyers(); e.target.reset();
     if(buyers[u].purchases.length===6)showPopup(buyers[u].name);
   };
 
@@ -247,10 +249,6 @@
   function showScreen(i,t){screens.style.transform=`translateX(-${i*100}%)`;document.querySelectorAll('.nav button').forEach((b,j)=>b.classList.toggle('active',j===i));mainHeader.innerText=t;if(i===1)renderBuyers();if(i===2)renderRewards();}
   function showPopup(n){popupMsg.innerText=`Congrats ${n}, you collected 6 stamps! 🎁`;popup.style.display='flex';}
   function closePopup(){popup.style.display='none';}
-  function spawnLove(){const l=document.createElement("div");l.className="love";l.innerText="❤";l.style.left=Math.random()*350+"px";l.style.top="700px";document.querySelector(".phone").appendChild(l);setTimeout(()=>l.remove(),6000);}
-  setInterval(spawnLove,3500);
-
-  renderBuyers();renderRewards();updateDropdown();
 </script>
 </body>
 </html>
