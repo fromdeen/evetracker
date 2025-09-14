@@ -146,7 +146,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
 import { getDatabase, ref, set, push, onValue, remove } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
 
-// 🔑 Ganti databaseURL sesuai project Firebase kamu
+// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyD1GAFeHLJOsjjUzuhb2Uiz_bAJFeelgBo",
   authDomain: "evetracker-275cf.firebaseapp.com",
@@ -161,17 +161,24 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-const formatIDR=new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR'});
-let buyers={};
+const buyerList = document.getElementById("buyerList");
+const rewardList = document.getElementById("rewardList");
+const existingUser = document.getElementById("existingUser");
+const searchInput = document.getElementById("searchInput");
 
-// realtime listener
+const formatIDR = new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR'});
+let buyers = {};
+
+// listener realtime
 onValue(ref(db,"buyers"),snapshot=>{
-  buyers=snapshot.val()||{};
-  console.log("Data loaded:", buyers); // debug
-  renderBuyers();renderRewards();updateDropdown();
+  buyers = snapshot.val() || {};
+  console.log("Data loaded:", buyers);
+  renderBuyers();
+  renderRewards();
+  updateDropdown();
 });
 
-// save new buyer
+// new buyer
 newBuyerForm.onsubmit=e=>{
   e.preventDefault();
   const name=newName.value,u=newUsername.value,d=newDate.value,p=newProduct.value,t=parseInt(newTotal.value)||0;
@@ -182,7 +189,7 @@ newBuyerForm.onsubmit=e=>{
   e.target.reset();
 };
 
-// save existing buyer
+// existing buyer
 existingBuyerForm.onsubmit=e=>{
   e.preventDefault();
   const u=existingUser.value,d=existDate.value,p=existProduct.value,t=parseInt(existTotal.value)||0;
@@ -192,15 +199,20 @@ existingBuyerForm.onsubmit=e=>{
   e.target.reset();
 };
 
-function deleteTransaction(user,txId){ remove(ref(db,"buyers/"+user+"/purchases/"+txId)); }
+function deleteTransaction(user,txId){
+  remove(ref(db,"buyers/"+user+"/purchases/"+txId));
+}
 
 function renderBuyers(filter=""){
   buyerList.innerHTML="";
-  if (!buyers || typeof buyers!=="object") return;
-
+  if (!buyers || typeof buyers!=="object") {
+    console.log("No buyers to render");
+    return;
+  }
   Object.keys(buyers).forEach(u=>{
     if(!u.toLowerCase().includes(filter)) return;
     const b=buyers[u];
+    console.log("Rendering buyer:", u, b);
     let txHTML="";
     if(b.purchases && typeof b.purchases==="object"){
       Object.keys(b.purchases).forEach(id=>{
@@ -215,7 +227,11 @@ function renderBuyers(filter=""){
 
 function renderRewards(){
   rewardList.innerHTML="";
-  if (!buyers || typeof buyers!=="object") return;
+  if (!buyers || typeof buyers!=="object") {
+    console.log("No rewards to render");
+    return;
+  }
+  console.log("Rendering rewards:", buyers);
 
   Object.keys(buyers).forEach(u=>{
     const b=buyers[u];
@@ -255,13 +271,13 @@ function spawnHeart(){
 }
 setInterval(spawnHeart,5000);
 
-// Expose functions to window
+// Expose to window
 window.showForm=showForm;
 window.showScreen=showScreen;
 window.closePopup=closePopup;
 window.deleteTransaction=deleteTransaction;
 
-// Clock updater
+// Clock
 function updateClock(){
   const now=new Date();
   const hh=String(now.getHours()).padStart(2,'0');
