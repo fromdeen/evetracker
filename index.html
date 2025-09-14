@@ -7,229 +7,216 @@
   <style>
     body {
       margin: 0;
-      background: linear-gradient(135deg, #fff9fb, #ffe6f0, #fff0f5);
+      height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      background: linear-gradient(180deg, #ffb6c1 0%, #ffd6cc 50%, #ffeef5 100%);
       overflow: hidden;
       font-family: 'Josefin Sans', sans-serif;
+      cursor: url('https://cur.cursors-4u.net/nature/nat-11/nat1052.cur'), auto;
+      animation: sunset 10s ease-in-out infinite alternate;
+    }
+    @keyframes sunset {
+      from { background: linear-gradient(180deg, #ffb6c1 0%, #ffd6cc 50%, #ffeef5 100%); }
+      to   { background: linear-gradient(180deg, #ffcce6 0%, #ffb380 50%, #fff0f5 100%); }
     }
 
-    /* Phone frame */
     .phone {
-      width: 360px;
-      height: 640px;
-      background: rgba(255,255,255,0.95);
-      border: 12px solid #ffd6e6;
+      width: 450px;
+      height: 800px;
+      max-width: 95vw;
+      max-height: 95vh;
+      background: rgba(255,255,255,0.96);
       border-radius: 40px;
-      box-shadow: 0 0 40px rgba(255,182,193,0.4), inset 0 0 15px rgba(255,255,255,0.6);
-      position: relative;
-      overflow: hidden;
+      box-shadow: 0 0 40px rgba(255,182,193,0.6);
       display: flex;
       flex-direction: column;
-    }
-
-    .screen {
-      flex: 1;
-      padding: 15px;
-      overflow-y: auto;
+      overflow: hidden;
+      border: 12px solid #ffd6e6;
       position: relative;
-      z-index: 2;
-      animation: fadeIn 0.8s ease;
     }
 
-    header {
-      text-align: center;
-      font-family: 'Parisienne', cursive;
-      font-size: 2.4em;
+    /* Status bar */
+    .status-bar {
+      height: 28px;
+      background: linear-gradient(to right, #ffccd5, #fff);
+      border-bottom: 1px solid #ffd6e6;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8em;
+      padding: 0 12px;
       color: #cc3366;
-      margin-bottom: 15px;
-      text-shadow: 0 0 12px #ffccd5, 0 0 25px #ff99aa;
+      font-weight: bold;
+    }
+    .signal { display: flex; gap: 1px; align-items: flex-end; margin-right: 6px; }
+    .signal div { width: 3px; background:#cc3366; border-radius:1px; }
+    .signal div:nth-child(1){height:4px;}
+    .signal div:nth-child(2){height:6px;}
+    .signal div:nth-child(3){height:8px;}
+    .signal div:nth-child(4){height:10px;}
+    .battery { width: 28px; height: 14px; border: 2px solid #cc3366; border-radius: 3px; position: relative; padding: 1px; }
+    .battery::after { content:""; position:absolute; right:-6px; width:4px; height:7px; background:#cc3366; border-radius:1px; }
+    .battery-level { height: 100%; background:#cc3366; border-radius:2px; transition: width 0.3s ease; }
+
+    /* Header */
+    .main-header {
+      text-align:center;
+      font-family:'Parisienne',cursive;
+      font-size:2.2em;
+      margin:12px 0;
+      color:#cc3366;
+      text-shadow:0 0 12px #ffccd5,0 0 25px #ff99aa;
     }
 
-    form {
-      display: grid;
-      gap: 10px;
-      margin-bottom: 15px;
+    /* Screens */
+    .screens { flex:1; display:flex; width:300%; transition: transform 0.6s ease, opacity 0.6s ease; }
+    .screen { width:100%; padding:18px; overflow-y:auto; }
+
+    form { display:grid; gap:12px; margin-bottom:15px; }
+    input, button { padding:12px; border-radius:10px; border:1px solid #ffcce0; font-size:1em; }
+    input:focus { border-color:#ff80aa; box-shadow:0 0 10px rgba(255,128,170,0.5); }
+    button { background:linear-gradient(90deg,#ff99cc,#cc3366); color:white; font-weight:bold; cursor:pointer; }
+
+    .buyer-list { background:rgba(255,255,255,0.7); border-radius:12px; padding:12px; box-shadow:inset 0 0 12px rgba(255,182,193,0.2); }
+    .buyer {
+      padding:10px;
+      border-bottom:1px dashed #ccc;
+      font-size:0.9em;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:10px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.6s forwards;
+    }
+    .buyer strong { font-family:'Parisienne',cursive; color:#cc3366; font-size:1.05em; }
+    .buyer .info { flex:1; }
+    .buyer:hover {
+      background: rgba(255,230,240,0.8);
+      border-radius: 10px;
+      box-shadow: 0 0 12px rgba(255,182,193,0.6);
+      transform: scale(1.02);
+      transition: all 0.3s ease;
     }
 
-    input, button {
+    @keyframes fadeInUp {
+      to { opacity:1; transform: translateY(0); }
+    }
+
+    .delete-btn {
+      background:#ff4d88;
+      border:none;
+      color:white;
+      padding:5px 8px;
+      border-radius:6px;
+      cursor:pointer;
+      font-size:0.8em;
+    }
+
+    .progress { display:flex; gap:5px; margin-top:5px; }
+    .slot { font-size:1.4em; opacity:0.2; }
+    .slot.active { opacity:1; color:#ff3399; text-shadow:0 0 8px #ff66cc,0 0 20px #ff99ff; }
+
+    /* Search bar */
+    .search-wrap {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    #searchBar {
+      flex: 1;
       padding: 10px;
       border-radius: 10px;
       border: 1px solid #ffcce0;
-      font-size: 0.9em;
-      outline: none;
+      font-size: 0.95em;
     }
-    input {
-      background: #fff;
-      color: #444;
-    }
-    input:focus {
-      border-color: #ff80aa;
-      box-shadow: 0 0 10px rgba(255,128,170,0.5);
-    }
-    button {
-      background: linear-gradient(90deg, #ffb6c1, #cc3366);
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      border: none;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 12px rgba(255,128,170,0.5);
+    #searchBtn {
+      background:#cc3366;
+      border:none;
+      border-radius:10px;
+      color:white;
+      padding: 10px 14px;
+      cursor:pointer;
+      font-size:0.9em;
     }
 
-    .actions {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-    .actions button { flex: 1; }
-
-    h2 {
-      text-align: center;
-      font-family: 'Parisienne', cursive;
-      font-size: 1.6em;
-      margin: 10px 0;
-      color: #cc3366;
-      text-shadow: 0 0 6px #ffd6e6;
-    }
-
-    .buyer-list {
-      background: rgba(255,255,255,0.7);
-      border-radius: 12px;
-      padding: 10px;
-      box-shadow: inset 0 0 12px rgba(255,182,193,0.2);
-      max-height: 220px;
-      overflow-y: auto;
-    }
-    .buyer {
-      padding: 8px;
-      border-bottom: 1px dashed #ccc;
-      font-size: 0.85em;
-      animation: fadeInUp 0.6s ease;
-    }
-    .buyer strong {
-      font-family: 'Parisienne', cursive;
-      font-size: 1.2em;
-      color: #cc3366;
-    }
-    .progress {
-      display: flex;
-      gap: 5px;
-      margin-top: 5px;
-    }
-    .slot {
-      font-size: 1.2em;
-      opacity: 0.2;
-    }
-    .slot.active {
-      opacity: 1;
-      color: #ff4d88;
-      text-shadow: 0 0 8px #ffccd5, 0 0 15px #ff99aa;
-      animation: pulse 1.2s infinite alternate;
-    }
-
-    /* Bottom navigation */
-    .nav {
-      display: flex;
-      justify-content: space-around;
-      background: #fff0f5;
-      border-top: 2px solid #ffd6e6;
-      padding: 8px 0;
-    }
-    .nav button {
-      background: none;
-      border: none;
-      font-size: 0.9em;
-      color: #cc3366;
-      font-weight: bold;
-      cursor: pointer;
-      flex: 1;
-    }
-    .nav button.active {
-      color: #ff4d88;
-      text-shadow: 0 0 6px #ffd6e6;
-    }
+    /* Nav */
+    .nav { display:flex; justify-content:space-around; background:#fff0f5; border-top:2px solid #ffd6e6; padding:10px 0; }
+    .nav button { background:none; border:none; font-size:1em; color:#cc3366; font-weight:bold; flex:1; }
+    .nav button.active { color:#ff4d88; text-shadow:0 0 6px #ffd6e6; transform:scale(1.1); }
 
     /* Popup */
-    .popup {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      display: none;
-      justify-content: center;
-      align-items: center;
-      background: rgba(0,0,0,0.5);
-      z-index: 999;
-    }
-    .popup-content {
-      background: #fff;
-      padding: 20px;
-      border-radius: 20px;
-      text-align: center;
-      box-shadow: 0 0 20px #ff99aa;
-      color: #cc3366;
-    }
+    .popup { position:fixed; top:0; left:0; width:100%; height:100%; display:none; justify-content:center; align-items:center; background:rgba(0,0,0,0.5); }
+    .popup-content { background:#fff; padding:24px; border-radius:20px; text-align:center; box-shadow:0 0 25px #ff99aa; color:#cc3366; font-size:1.1em; animation: fadeInUp 0.6s; }
 
-    /* Animations */
-    @keyframes fadeIn {from{opacity:0;} to{opacity:1;}}
-    @keyframes fadeInUp {from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);}}
-    @keyframes pulse {from{transform:scale(1);} to{transform:scale(1.2);}}
-
-    /* Floating Loves */
+    /* Floating loves */
     .love {
       position: absolute;
-      font-size: 1.2em;
-      color: #ff4d88;
-      opacity: 0.7;
+      font-size: 1.6em;
+      color: #ff3399;
+      text-shadow: 0 0 8px #ff66cc, 0 0 15px #ff99ff;
+      opacity: 0.8;
       animation: floatUp 6s linear forwards;
       pointer-events: none;
     }
     @keyframes floatUp {
       0% {opacity:1; transform: translateY(0) scale(1);}
-      100% {opacity:0; transform: translateY(-200px) scale(1.5);}
+      100% {opacity:0; transform: translateY(-320px) scale(1.6);}
     }
   </style>
 </head>
 <body>
 
 <div class="phone">
-  <!-- Screens -->
-  <div class="screen" id="homeScreen">
-    <header>Grace to be Eve</header>
-    <form id="loyaltyForm">
-      <input type="text" id="name" placeholder="Full Name" required>
-      <input type="text" id="username" placeholder="Username" required>
-      <input type="date" id="date" required>
-      <input type="text" id="product" placeholder="Purchased Product" required>
-      <input type="number" id="total" placeholder="Total Purchase (USD)" required>
-      <button type="submit">Submit</button>
-    </form>
-    <div class="actions">
-      <button onclick="saveData()">Save</button>
-      <button onclick="deleteAll()">Delete All</button>
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <div style="display:flex; align-items:center;">
+      <div class="signal"><div></div><div></div><div></div><div></div></div>
+      <span id="time">--:--</span>
     </div>
+    <div class="battery"><div class="battery-level" id="batteryLevel" style="width:100%"></div></div>
   </div>
 
-  <div class="screen" id="buyersScreen" style="display:none;">
-    <h2>Buyers</h2>
-    <div class="buyer-list" id="buyerList"></div>
-  </div>
+  <!-- Dynamic Header -->
+  <div class="main-header" id="mainHeader">Home</div>
 
-  <div class="screen" id="rewardsScreen" style="display:none;">
-    <h2>Rewards</h2>
+  <!-- Screens -->
+  <div class="screens" id="screens">
+    <!-- Home -->
+    <div class="screen">
+      <form id="loyaltyForm">
+        <input type="text" id="name" placeholder="Full Name" required>
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="date" id="date" required>
+        <input type="text" id="product" placeholder="Purchased Product" required>
+        <input type="text" id="total" placeholder="Total Purchase (IDR)" required>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+
+    <!-- Buyers -->
+    <div class="screen">
+      <div class="search-wrap">
+        <input type="text" id="searchBar" placeholder="Search buyer by name or username...">
+        <button id="searchBtn">Search</button>
+      </div>
+      <div class="buyer-list" id="buyerList"></div>
+    </div>
+
+    <!-- Rewards -->
+    <div class="screen">
+      <div class="buyer-list" id="rewardList"></div>
+    </div>
   </div>
 
   <!-- Bottom nav -->
   <div class="nav">
-    <button id="navHome" class="active" onclick="showScreen('home')">Home</button>
-    <button id="navBuyers" onclick="showScreen('buyers')">Buyers</button>
-    <button id="navRewards" onclick="showScreen('rewards')">Rewards</button>
+    <button id="navHome" class="active" onclick="showScreen(0,'Home')">Home</button>
+    <button id="navBuyers" onclick="showScreen(1,'List of Buyers')">Buyers</button>
+    <button id="navRewards" onclick="showScreen(2,'Rewards')">Rewards</button>
   </div>
 </div>
 
@@ -237,99 +224,129 @@
 <div class="popup" id="popup">
   <div class="popup-content">
     <h3>💖 Reward 💖</h3>
-    <p>Congratulations princess! You have purchased 6 times.<br>Your gift is waiting ✨</p>
+    <p id="popupMsg"></p>
     <button onclick="closePopup()">Close</button>
   </div>
 </div>
 
 <script>
   let buyers = JSON.parse(localStorage.getItem("buyers")) || {};
+  const formatIDR = new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',minimumFractionDigits:0});
 
-  document.getElementById('loyaltyForm').addEventListener('submit', function(e){
+  // Clock
+  function updateClock(){
+    const now = new Date();
+    let h = String(now.getHours()).padStart(2,"0");
+    let m = String(now.getMinutes()).padStart(2,"0");
+    document.getElementById('time').innerText = `${h}:${m}`;
+  }
+  setInterval(updateClock,1000); updateClock();
+
+  // Battery simulation
+  let battery=100;
+  setInterval(()=>{
+    battery = battery>0?battery-1:100;
+    document.getElementById('batteryLevel').style.width = battery+"%";
+  },60000);
+
+  // Auto format IDR
+  const totalInput=document.getElementById('total');
+  totalInput.addEventListener('input',function(e){
+    let v=e.target.value.replace(/\D/g,'');
+    e.target.value=v?formatIDR.format(v):"";
+  });
+
+  // Submit form
+  document.getElementById('loyaltyForm').addEventListener('submit',function(e){
     e.preventDefault();
-    const name = document.getElementById('name').value;
-    const username = document.getElementById('username').value;
-    const date = document.getElementById('date').value;
-    const product = document.getElementById('product').value;
-    const total = document.getElementById('total').value;
+    const name=document.getElementById('name').value;
+    const username=document.getElementById('username').value;
+    const date=document.getElementById('date').value;
+    const product=document.getElementById('product').value;
+    const total=parseInt(document.getElementById('total').value.replace(/\D/g,''))||0;
 
-    if(!buyers[username]){
-      buyers[username] = {name, purchases: []};
-    }
-    buyers[username].purchases.push({date, product, total});
-    localStorage.setItem("buyers", JSON.stringify(buyers));
-    renderBuyers();
+    if(!buyers[username]) buyers[username]={name,purchases:[]};
+    buyers[username].purchases.push({date,product,total});
+    localStorage.setItem("buyers",JSON.stringify(buyers));
     this.reset();
+    renderBuyers(); renderRewards(); spawnLove();
 
-    spawnLove();
-
-    if(buyers[username].purchases.length === 6){
-      document.getElementById('popup').style.display = 'flex';
+    if(buyers[username].purchases.length===6){
+      document.getElementById('popupMsg').innerText=`Congrats ${buyers[username].name}, you collected 6 stamps! 🎁`;
+      document.getElementById('popup').style.display='flex';
     }
   });
 
+  // Render Buyers
   function renderBuyers(){
-    const list = document.getElementById('buyerList');
-    list.innerHTML = "";
-    Object.keys(buyers).forEach(username=>{
-      const buyer = buyers[username];
-      const div = document.createElement('div');
-      div.className = 'buyer';
-      div.innerHTML = `
-        <div>
-          <strong>${buyer.name}</strong> (@${username})<br>
-          ${buyer.purchases.map(p=>`${p.date} - ${p.product} (USD ${p.total})`).join('<br>')}
-        </div>
-        <div class="progress">
-          ${[...Array(6)].map((_,i)=>`<span class="slot ${i < buyer.purchases.length ? 'active':''}">❤</span>`).join('')}
-        </div>
-      `;
+    const list=document.getElementById('buyerList');
+    const search=document.getElementById('searchBar').value.toLowerCase();
+    list.innerHTML="";
+    Object.keys(buyers).forEach((u,i)=>{
+      const b=buyers[u];
+      if(b.name.toLowerCase().includes(search) || u.toLowerCase().includes(search)){
+        const div=document.createElement('div');
+        div.className="buyer";
+        div.style.animationDelay=`${i*0.1}s`; // staggered animation
+        div.innerHTML=`<div class="info"><strong>${b.name}</strong> (@${u})<br>${b.purchases.map(p=>`${p.date} - ${p.product} (${formatIDR.format(p.total)})`).join('<br>')}</div>
+                       <button class="delete-btn" onclick="deleteUser('${u}')">Delete</button>`;
+        list.appendChild(div);
+      }
+    });
+  }
+
+  // Render Rewards
+  function renderRewards(){
+    const list=document.getElementById('rewardList');
+    list.innerHTML="";
+    Object.keys(buyers).forEach((u,i)=>{
+      const b=buyers[u];
+      const div=document.createElement('div');
+      div.className="buyer";
+      div.style.animationDelay=`${i*0.1}s`;
+      div.innerHTML=`<div class="info"><strong>${b.name}</strong> (@${u})<br>
+        <div class="progress">${[...Array(6)].map((_,i)=>`<span class="slot ${i<b.purchases.length?'active':''}">❤</span>`).join('')}</div></div>`;
       list.appendChild(div);
     });
   }
 
-  function saveData(){
-    const blob = new Blob([JSON.stringify(buyers, null, 2)], {type:'application/json'});
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = "buyers.json";
-    a.click();
-  }
-
-  function deleteAll(){
-    if(confirm("Delete all data?")){
-      buyers = {};
-      localStorage.removeItem("buyers");
-      renderBuyers();
+  function deleteUser(username){
+    if(confirm(`Delete ${buyers[username].name}?`)){
+      delete buyers[username];
+      localStorage.setItem("buyers",JSON.stringify(buyers));
+      renderBuyers(); renderRewards();
     }
   }
 
-  function closePopup(){
-    document.getElementById('popup').style.display = 'none';
-  }
+  function closePopup(){document.getElementById('popup').style.display='none';}
 
-  function showScreen(tab){
-    document.getElementById('homeScreen').style.display = (tab==='home')?'block':'none';
-    document.getElementById('buyersScreen').style.display = (tab==='buyers')?'block':'none';
-    document.getElementById('rewardsScreen').style.display = (tab==='rewards')?'block':'none';
+  function showScreen(i,title){
+    const screens=document.getElementById('screens');
+    screens.style.opacity="0.5";
+    setTimeout(()=>{screens.style.transform=`translateX(-${i*100}%)`; screens.style.opacity="1";},200);
     document.querySelectorAll('.nav button').forEach(btn=>btn.classList.remove('active'));
-    document.getElementById('nav'+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.add('active');
+    document.querySelectorAll('.nav button')[i].classList.add('active');
+    document.getElementById('mainHeader').innerText=title;
+    if(i===1) renderBuyers();
+    if(i===2) renderRewards();
   }
 
-  renderBuyers();
-
-  // Floating Loves background
+  // Floating hearts
   function spawnLove(){
-    const love = document.createElement("div");
-    love.className = "love";
-    love.innerText = "❤";
-    love.style.left = Math.random()*300 + "px";
-    love.style.top = "600px";
+    const love=document.createElement("div");
+    love.className="love";
+    love.innerText="❤";
+    love.style.left=Math.random()*350+"px";
+    love.style.top="750px";
     document.querySelector(".phone").appendChild(love);
     setTimeout(()=>love.remove(),6000);
   }
+  setInterval(spawnLove,2500);
 
-  setInterval(spawnLove, 2000); // auto-floating hearts
+  document.getElementById('searchBar').addEventListener('input',renderBuyers);
+  document.getElementById('searchBtn').addEventListener('click',function(e){e.preventDefault();renderBuyers();});
+
+  renderBuyers(); renderRewards();
 </script>
 
 </body>
