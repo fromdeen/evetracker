@@ -167,6 +167,7 @@ let buyers={};
 // realtime listener
 onValue(ref(db,"buyers"),snapshot=>{
   buyers=snapshot.val()||{};
+  console.log("Data loaded:", buyers); // debug
   renderBuyers();renderRewards();updateDropdown();
 });
 
@@ -195,11 +196,13 @@ function deleteTransaction(user,txId){ remove(ref(db,"buyers/"+user+"/purchases/
 
 function renderBuyers(filter=""){
   buyerList.innerHTML="";
+  if (!buyers || typeof buyers!=="object") return;
+
   Object.keys(buyers).forEach(u=>{
-    if(!u.toLowerCase().includes(filter))return;
+    if(!u.toLowerCase().includes(filter)) return;
     const b=buyers[u];
     let txHTML="";
-    if(b.purchases){
+    if(b.purchases && typeof b.purchases==="object"){
       Object.keys(b.purchases).forEach(id=>{
         const p=b.purchases[id];
         txHTML+=`<div class="purchase"><span>${p.date} - ${p.product} (${formatIDR.format(p.total)})</span>
@@ -212,9 +215,13 @@ function renderBuyers(filter=""){
 
 function renderRewards(){
   rewardList.innerHTML="";
+  if (!buyers || typeof buyers!=="object") return;
+
   Object.keys(buyers).forEach(u=>{
-    const b=buyers[u];const count=b.purchases?Object.keys(b.purchases).length:0;
+    const b=buyers[u];
+    const count=b.purchases?Object.keys(b.purchases).length:0;
     if(count===6) showPopup(b.name);
+
     const hearts=[...Array(6)].map((_,i)=>`<svg class="heart ${i<count?'filled':''}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 21s-6.7-5.1-10-9.4C-1.1 7.2 2.4 2 7.5 2c2.3 0 4.1 1.3 4.5 3.1C12.4 3.3 14.2 2 16.5 2 21.6 2 25.1 7.2 22 11.6 18.7 15.9 12 21 12 21z"/></svg>`).join('');
     rewardList.innerHTML+=`<div class="buyer"><strong>${b.name}</strong> (@${u})<br><div class="progress">${hearts}</div></div>`;
   });
@@ -222,6 +229,7 @@ function renderRewards(){
 
 function updateDropdown(){
   existingUser.innerHTML="";
+  if (!buyers || typeof buyers!=="object") return;
   Object.keys(buyers).forEach(u=>{
     existingUser.innerHTML+=`<option value="${u}">${buyers[u].name} (@${u})</option>`;
   });
