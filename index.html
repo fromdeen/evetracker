@@ -12,23 +12,13 @@
     background:linear-gradient(180deg,#ffdee9 0%,#fff0f5 50%,#ffe6f0 100%);
     font-family:'Poppins',sans-serif;
   }
-  .phone {
-    width:420px; height:820px;
-    background:#fff; border-radius:40px;
-    box-shadow:0 0 40px rgba(255,150,180,.4);
-    overflow:hidden; display:flex; flex-direction:column;
-    position:relative;
-  }
-  .notch {
-    position:absolute; top:0; left:50%; transform:translateX(-50%);
-    width:180px; height:28px; background:#111;
-    border-radius:0 0 20px 20px; z-index:10;
-  }
-  .status-bar {
-    height:28px; padding:0 14px;
-    display:flex; justify-content:space-between; align-items:center;
-    font-size:0.8em; font-weight:600; color:#cc3366;
-  }
+  .phone {width:420px;height:820px;background:#fff;border-radius:40px;
+    box-shadow:0 0 40px rgba(255,150,180,.4);overflow:hidden;
+    display:flex;flex-direction:column;position:relative;}
+  .notch {position:absolute;top:0;left:50%;transform:translateX(-50%);
+    width:180px;height:28px;background:#111;border-radius:0 0 20px 20px;z-index:10;}
+  .status-bar {height:28px;padding:0 14px;display:flex;justify-content:space-between;
+    align-items:center;font-size:0.8em;font-weight:600;color:#cc3366;}
   .battery {width:24px;height:12px;border:2px solid #cc3366;border-radius:3px;position:relative;}
   .battery::after {content:"";position:absolute;right:-5px;top:2px;width:3px;height:6px;background:#cc3366;}
   .battery-level {height:100%;background:#cc3366;}
@@ -37,8 +27,9 @@
   .screens {flex:1;display:flex;width:300%;transition:transform .5s;}
   .screen {width:100%;padding:20px;overflow-y:auto;}
   .choice {display:flex;flex-direction:column;gap:16px;margin-top:120px;align-items:center;}
-  .card {background:#fff5f8;border-radius:16px;padding:20px 30px;text-align:center;font-size:1.1em;
-    color:#cc3366;font-weight:600;cursor:pointer;box-shadow:0 4px 10px rgba(255,150,180,.25);width:70%;}
+  .card {background:#fff5f8;border-radius:16px;padding:20px 30px;text-align:center;
+    font-size:1.1em;color:#cc3366;font-weight:600;cursor:pointer;
+    box-shadow:0 4px 10px rgba(255,150,180,.25);width:70%;}
   .card:hover {transform:translateY(-3px);}
   form {display:grid;gap:12px;margin-top:20px;}
   input,select,button {padding:12px;border-radius:10px;border:1px solid #ffd6e6;font-size:0.95em;}
@@ -63,22 +54,11 @@
   .popup-content .material-icons {font-size:40px;color:#ff4d88;margin-bottom:10px;}
   .search-bar {margin-bottom:10px;}
   .search-bar input {width:100%;padding:10px;border-radius:8px;border:1px solid #ffd6e6;}
-  /* Floating hearts */
-  .floating-heart {
-    position:absolute;
-    bottom:40px;
-    font-size:28px;
-    color:#ff4d88;
-    text-shadow:0 0 6px rgba(255,100,150,0.6);
-    opacity:0.9;
-    animation:floatUp 6s linear forwards;
-    pointer-events:none;
-    z-index:0;
-  }
-  @keyframes floatUp {
-    0%{transform:translateY(0) scale(1);opacity:1;}
-    100%{transform:translateY(-300px) scale(1.6);opacity:0;}
-  }
+  .floating-heart {position:absolute;bottom:40px;font-size:28px;color:#ff4d88;
+    text-shadow:0 0 6px rgba(255,100,150,0.6);opacity:0.9;
+    animation:floatUp 6s linear forwards;pointer-events:none;z-index:0;}
+  @keyframes floatUp {0%{transform:translateY(0) scale(1);opacity:1;}
+    100%{transform:translateY(-300px) scale(1.6);opacity:0;}}
 </style>
 </head>
 <body>
@@ -146,155 +126,155 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
 import { getDatabase, ref, set, push, onValue, remove } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
 
-// Firebase config
-const firebaseConfig = {
-  apiKey: "AIzaSyD1GAFeHLJOsjjUzuhb2Uiz_bAJFeelgBo",
-  authDomain: "evetracker-275cf.firebaseapp.com",
-  databaseURL: "https://evetracker-275cf-default-rtdb.firebaseio.com",
-  projectId: "evetracker-275cf",
-  storageBucket: "evetracker-275cf.appspot.com",
-  messagingSenderId: "126245705022",
-  appId: "1:126245705022:web:dd4fdc886ff25c7c32886f",
-  measurementId: "G-7T553PB0MQ"
-};
+document.addEventListener("DOMContentLoaded", () => {
+  // Firebase config
+  const firebaseConfig = {
+    apiKey: "AIzaSyD1GAFeHLJOsjjUzuhb2Uiz_bAJFeelgBo",
+    authDomain: "evetracker-275cf.firebaseapp.com",
+    databaseURL: "https://evetracker-275cf-default-rtdb.firebaseio.com",
+    projectId: "evetracker-275cf",
+    storageBucket: "evetracker-275cf.appspot.com",
+    messagingSenderId: "126245705022",
+    appId: "1:126245705022:web:dd4fdc886ff25c7c32886f",
+    measurementId: "G-7T553PB0MQ"
+  };
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
 
-const formatIDR = new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR'});
-let buyers = {};
+  const formatIDR = new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR'});
+  let buyers = {};
 
-// listener realtime
-onValue(ref(db,"buyers"),snapshot=>{
-  buyers = snapshot.val() || {};
-  console.log("Data loaded:", buyers);
-  renderBuyers();
-  renderRewards();
-  updateDropdown();
+  // realtime listener
+  onValue(ref(db,"buyers"),snapshot=>{
+    buyers = snapshot.val() || {};
+    console.log("Data loaded:", buyers);
+    renderBuyers();
+    renderRewards();
+    updateDropdown();
+  });
+
+  // new buyer
+  newBuyerForm.onsubmit=e=>{
+    e.preventDefault();
+    const name=newName.value,u=newUsername.value,d=newDate.value,p=newProduct.value,t=parseInt(newTotal.value)||0;
+    if(!buyers[u]){set(ref(db,"buyers/"+u),{name:name});}
+    const tx=push(ref(db,"buyers/"+u+"/purchases"));
+    set(tx,{date:d,product:p,total:t});
+    spawnHeart();
+    e.target.reset();
+  };
+
+  // existing buyer
+  existingBuyerForm.onsubmit=e=>{
+    e.preventDefault();
+    const u=existingUser.value,d=existDate.value,p=existProduct.value,t=parseInt(existTotal.value)||0;
+    const tx=push(ref(db,"buyers/"+u+"/purchases"));
+    set(tx,{date:d,product:p,total:t});
+    spawnHeart();
+    e.target.reset();
+  };
+
+  function deleteTransaction(user,txId){
+    remove(ref(db,"buyers/"+user+"/purchases/"+txId));
+  }
+
+  function renderBuyers(filter=""){
+    const buyerList=document.getElementById("buyerList");
+    if(!buyerList){console.error("buyerList not found!");return;}
+    buyerList.innerHTML="";
+    if (!buyers || typeof buyers!=="object") return;
+
+    Object.keys(buyers).forEach(u=>{
+      if(!u.toLowerCase().includes(filter)) return;
+      const b=buyers[u];
+      console.log("Rendering buyer:", u, b);
+      let txHTML="";
+      if(b.purchases){
+        Object.keys(b.purchases).forEach(id=>{
+          const p=b.purchases[id];
+          txHTML+=`
+            <div class="purchase">
+              <span>${p.date} - ${p.product} (${formatIDR.format(p.total)})</span>
+              <button class="delete-tx material-icons" onclick="deleteTransaction('${u}','${id}')">delete</button>
+            </div>`;
+        });
+      }
+      buyerList.innerHTML+=`
+        <div class="buyer">
+          <strong>${b.name}</strong> (@${u})
+          ${txHTML}
+        </div>`;
+    });
+  }
+
+  function renderRewards(){
+    const rewardList=document.getElementById("rewardList");
+    if(!rewardList){console.error("rewardList not found!");return;}
+    rewardList.innerHTML="";
+    if (!buyers || typeof buyers!=="object") return;
+
+    Object.keys(buyers).forEach(u=>{
+      const b=buyers[u];
+      const count=b.purchases?Object.keys(b.purchases).length:0;
+      if(count===6) showPopup(b.name);
+
+      const hearts=[...Array(6)].map((_,i)=>`
+        <svg class="heart ${i<count?'filled':''}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M12 21s-6.7-5.1-10-9.4C-1.1 7.2 2.4 2 7.5 2c2.3 0 4.1 1.3 4.5 3.1C12.4 3.3 14.2 2 16.5 2 21.6 2 25.1 7.2 22 11.6 18.7 15.9 12 21 12 21z"/>
+        </svg>`).join('');
+      
+      rewardList.innerHTML+=`
+        <div class="buyer">
+          <strong>${b.name}</strong> (@${u})<br>
+          <div class="progress">${hearts}</div>
+        </div>`;
+    });
+  }
+
+  function updateDropdown(){
+    const existingUser=document.getElementById("existingUser");
+    if(!existingUser) return;
+    existingUser.innerHTML="";
+    if (!buyers || typeof buyers!=="object") return;
+    Object.keys(buyers).forEach(u=>{
+      existingUser.innerHTML+=`<option value="${u}">${buyers[u].name} (@${u})</option>`;
+    });
+  }
+
+  document.getElementById("searchInput").addEventListener('input',e=>{
+    renderBuyers(e.target.value.toLowerCase());
+  });
+
+  // UI helpers
+  window.showForm=function(t){newBuyerForm.style.display=t==="new"?"block":"none";existingBuyerForm.style.display=t==="existing"?"block":"none";}
+  window.showScreen=function(i,t){screens.style.transform=`translateX(-${i*100}%)`;document.querySelectorAll('.nav button').forEach((b,j)=>b.classList.toggle('active',j===i));mainHeader.innerText=t;}
+  window.showPopup=function(n){popupMsg.innerText=`Congrats ${n}, you collected 6 stamps!`;popup.style.display='flex';}
+  window.closePopup=function(){popup.style.display='none';}
+  window.deleteTransaction=deleteTransaction;
+
+  // Floating hearts
+  function spawnHeart(){
+    const phone=document.querySelector(".phone");
+    const heart=document.createElement("span");
+    heart.className="floating-heart material-icons";
+    heart.style.left=Math.random()*350+"px";
+    heart.textContent="favorite";
+    phone.appendChild(heart);
+    setTimeout(()=>heart.remove(),6000);
+  }
+  setInterval(spawnHeart,5000);
+
+  // Clock
+  function updateClock(){
+    const now=new Date();
+    const hh=String(now.getHours()).padStart(2,'0');
+    const mm=String(now.getMinutes()).padStart(2,'0');
+    document.getElementById("time").innerText=`${hh}:${mm}`;
+  }
+  setInterval(updateClock,1000);
+  updateClock();
 });
-
-// new buyer
-newBuyerForm.onsubmit=e=>{
-  e.preventDefault();
-  const name=newName.value,u=newUsername.value,d=newDate.value,p=newProduct.value,t=parseInt(newTotal.value)||0;
-  if(!buyers[u]){set(ref(db,"buyers/"+u),{name:name});}
-  const tx=push(ref(db,"buyers/"+u+"/purchases"));
-  set(tx,{date:d,product:p,total:t});
-  spawnHeart();
-  e.target.reset();
-};
-
-// existing buyer
-existingBuyerForm.onsubmit=e=>{
-  e.preventDefault();
-  const u=existingUser.value,d=existDate.value,p=existProduct.value,t=parseInt(existTotal.value)||0;
-  const tx=push(ref(db,"buyers/"+u+"/purchases"));
-  set(tx,{date:d,product:p,total:t});
-  spawnHeart();
-  e.target.reset();
-};
-
-function deleteTransaction(user,txId){
-  remove(ref(db,"buyers/"+user+"/purchases/"+txId));
-}
-
-function renderBuyers(filter=""){
-  const buyerList = document.getElementById("buyerList"); // FIX
-  buyerList.innerHTML="";
-  if (!buyers || typeof buyers!=="object") return;
-
-  Object.keys(buyers).forEach(u=>{
-    if(!u.toLowerCase().includes(filter)) return;
-    const b=buyers[u];
-    console.log("Rendering buyer:", u, b);
-    let txHTML="";
-    if(b.purchases && typeof b.purchases==="object"){
-      Object.keys(b.purchases).forEach(id=>{
-        const p=b.purchases[id];
-        txHTML+=`
-          <div class="purchase">
-            <span>${p.date} - ${p.product} (${formatIDR.format(p.total)})</span>
-            <button class="delete-tx material-icons" onclick="deleteTransaction('${u}','${id}')">delete</button>
-          </div>`;
-      });
-    }
-    buyerList.innerHTML+=`
-      <div class="buyer">
-        <strong>${b.name}</strong> (@${u})
-        ${txHTML}
-      </div>`;
-  });
-}
-
-function renderRewards(){
-  const rewardList = document.getElementById("rewardList"); // FIX
-  rewardList.innerHTML="";
-  if (!buyers || typeof buyers!=="object") return;
-
-  Object.keys(buyers).forEach(u=>{
-    const b=buyers[u];
-    const count=b.purchases?Object.keys(b.purchases).length:0;
-    if(count===6) showPopup(b.name);
-
-    const hearts=[...Array(6)].map((_,i)=>`
-      <svg class="heart ${i<count?'filled':''}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-        <path d="M12 21s-6.7-5.1-10-9.4C-1.1 7.2 2.4 2 7.5 2c2.3 0 4.1 1.3 4.5 3.1C12.4 3.3 14.2 2 16.5 2 21.6 2 25.1 7.2 22 11.6 18.7 15.9 12 21 12 21z"/>
-      </svg>`).join('');
-    
-    rewardList.innerHTML+=`
-      <div class="buyer">
-        <strong>${b.name}</strong> (@${u})<br>
-        <div class="progress">${hearts}</div>
-      </div>`;
-  });
-}
-
-function updateDropdown(){
-  const existingUser = document.getElementById("existingUser"); // FIX
-  existingUser.innerHTML="";
-  if (!buyers || typeof buyers!=="object") return;
-  Object.keys(buyers).forEach(u=>{
-    existingUser.innerHTML+=`<option value="${u}">${buyers[u].name} (@${u})</option>`;
-  });
-}
-
-document.getElementById("searchInput").addEventListener('input',e=>{
-  renderBuyers(e.target.value.toLowerCase());
-});
-
-// UI helpers
-function showForm(t){newBuyerForm.style.display=t==="new"?"block":"none";existingBuyerForm.style.display=t==="existing"?"block":"none";}
-function showScreen(i,t){screens.style.transform=`translateX(-${i*100}%)`;document.querySelectorAll('.nav button').forEach((b,j)=>b.classList.toggle('active',j===i));mainHeader.innerText=t;}
-function showPopup(n){popupMsg.innerText=`Congrats ${n}, you collected 6 stamps!`;popup.style.display='flex';}
-function closePopup(){popup.style.display='none';}
-
-// Floating hearts
-function spawnHeart(){
-  const phone=document.querySelector(".phone");
-  const heart=document.createElement("span");
-  heart.className="floating-heart material-icons";
-  heart.style.left=Math.random()*350+"px";
-  heart.textContent="favorite";
-  phone.appendChild(heart);
-  setTimeout(()=>heart.remove(),6000);
-}
-setInterval(spawnHeart,5000);
-
-// Expose to window
-window.showForm=showForm;
-window.showScreen=showScreen;
-window.closePopup=closePopup;
-window.deleteTransaction=deleteTransaction;
-
-// Clock
-function updateClock(){
-  const now=new Date();
-  const hh=String(now.getHours()).padStart(2,'0');
-  const mm=String(now.getMinutes()).padStart(2,'0');
-  document.getElementById("time").innerText=`${hh}:${mm}`;
-}
-setInterval(updateClock,1000);
-updateClock();
 </script>
 </body>
 </html>
