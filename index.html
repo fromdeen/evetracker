@@ -161,11 +161,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-const buyerList = document.getElementById("buyerList");
-const rewardList = document.getElementById("rewardList");
-const existingUser = document.getElementById("existingUser");
-const searchInput = document.getElementById("searchInput");
-
 const formatIDR = new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR'});
 let buyers = {};
 
@@ -204,11 +199,10 @@ function deleteTransaction(user,txId){
 }
 
 function renderBuyers(filter=""){
+  const buyerList = document.getElementById("buyerList"); // FIX
   buyerList.innerHTML="";
-  if (!buyers || typeof buyers!=="object") {
-    console.log("No buyers to render");
-    return;
-  }
+  if (!buyers || typeof buyers!=="object") return;
+
   Object.keys(buyers).forEach(u=>{
     if(!u.toLowerCase().includes(filter)) return;
     const b=buyers[u];
@@ -217,33 +211,46 @@ function renderBuyers(filter=""){
     if(b.purchases && typeof b.purchases==="object"){
       Object.keys(b.purchases).forEach(id=>{
         const p=b.purchases[id];
-        txHTML+=`<div class="purchase"><span>${p.date} - ${p.product} (${formatIDR.format(p.total)})</span>
-          <button class="delete-tx material-icons" onclick="deleteTransaction('${u}','${id}')">delete</button></div>`;
+        txHTML+=`
+          <div class="purchase">
+            <span>${p.date} - ${p.product} (${formatIDR.format(p.total)})</span>
+            <button class="delete-tx material-icons" onclick="deleteTransaction('${u}','${id}')">delete</button>
+          </div>`;
       });
     }
-    buyerList.innerHTML+=`<div class="buyer"><strong>${b.name}</strong> (@${u})${txHTML}</div>`;
+    buyerList.innerHTML+=`
+      <div class="buyer">
+        <strong>${b.name}</strong> (@${u})
+        ${txHTML}
+      </div>`;
   });
 }
 
 function renderRewards(){
+  const rewardList = document.getElementById("rewardList"); // FIX
   rewardList.innerHTML="";
-  if (!buyers || typeof buyers!=="object") {
-    console.log("No rewards to render");
-    return;
-  }
-  console.log("Rendering rewards:", buyers);
+  if (!buyers || typeof buyers!=="object") return;
 
   Object.keys(buyers).forEach(u=>{
     const b=buyers[u];
     const count=b.purchases?Object.keys(b.purchases).length:0;
     if(count===6) showPopup(b.name);
 
-    const hearts=[...Array(6)].map((_,i)=>`<svg class="heart ${i<count?'filled':''}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 21s-6.7-5.1-10-9.4C-1.1 7.2 2.4 2 7.5 2c2.3 0 4.1 1.3 4.5 3.1C12.4 3.3 14.2 2 16.5 2 21.6 2 25.1 7.2 22 11.6 18.7 15.9 12 21 12 21z"/></svg>`).join('');
-    rewardList.innerHTML+=`<div class="buyer"><strong>${b.name}</strong> (@${u})<br><div class="progress">${hearts}</div></div>`;
+    const hearts=[...Array(6)].map((_,i)=>`
+      <svg class="heart ${i<count?'filled':''}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M12 21s-6.7-5.1-10-9.4C-1.1 7.2 2.4 2 7.5 2c2.3 0 4.1 1.3 4.5 3.1C12.4 3.3 14.2 2 16.5 2 21.6 2 25.1 7.2 22 11.6 18.7 15.9 12 21 12 21z"/>
+      </svg>`).join('');
+    
+    rewardList.innerHTML+=`
+      <div class="buyer">
+        <strong>${b.name}</strong> (@${u})<br>
+        <div class="progress">${hearts}</div>
+      </div>`;
   });
 }
 
 function updateDropdown(){
+  const existingUser = document.getElementById("existingUser"); // FIX
   existingUser.innerHTML="";
   if (!buyers || typeof buyers!=="object") return;
   Object.keys(buyers).forEach(u=>{
@@ -251,7 +258,9 @@ function updateDropdown(){
   });
 }
 
-searchInput.addEventListener('input',e=>{renderBuyers(e.target.value.toLowerCase());});
+document.getElementById("searchInput").addEventListener('input',e=>{
+  renderBuyers(e.target.value.toLowerCase());
+});
 
 // UI helpers
 function showForm(t){newBuyerForm.style.display=t==="new"?"block":"none";existingBuyerForm.style.display=t==="existing"?"block":"none";}
