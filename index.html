@@ -7,30 +7,42 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <style>
   body {
-    margin:0; height:100vh;
-    display:flex; justify-content:center; align-items:center;
-    background:linear-gradient(180deg,#ffdee9 0%,#fff0f5 50%,#ffe6f0 100%);
-    font-family:'Poppins',sans-serif;
+    margin:0;height:100vh;display:flex;justify-content:center;align-items:center;
+    overflow:hidden;font-family:'Poppins',sans-serif;
+    background:linear-gradient(270deg,#ffdee9,#fff0f5,#ffe6f0,#ffd6e6);
+    background-size:800% 800%;animation:gradientMove 20s ease infinite;
   }
-  .phone {width:420px;height:820px;background:#fff;border-radius:40px;
-    box-shadow:0 0 40px rgba(255,150,180,.4);overflow:hidden;
-    display:flex;flex-direction:column;position:relative;}
+  @keyframes gradientMove {0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+  /* phone case */
+  .phone-case {
+    padding:14px;border-radius:50px;
+    background:linear-gradient(135deg,#ffd6e6,#ffb6d9,#fff);
+    box-shadow:0 0 40px rgba(255,100,150,.4), inset 0 0 15px rgba(255,200,220,.8);
+    position:relative;
+  }
+  .phone {
+    width:420px;height:820px;border-radius:40px;overflow:hidden;
+    display:flex;flex-direction:column;position:relative;z-index:5;
+    background:url('https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=800&q=80') center/cover no-repeat;
+  }
   .notch {position:absolute;top:0;left:50%;transform:translateX(-50%);
-    width:180px;height:28px;background:#111;border-radius:0 0 20px 20px;z-index:10;}
-  .status-bar {height:28px;padding:0 14px;display:flex;justify-content:space-between;
-    align-items:center;font-size:0.8em;font-weight:600;color:#cc3366;}
-  .battery {width:24px;height:12px;border:2px solid #cc3366;border-radius:3px;position:relative;}
-  .battery::after {content:"";position:absolute;right:-5px;top:2px;width:3px;height:6px;background:#cc3366;}
-  .battery-level {height:100%;background:#cc3366;}
-  .app-header {font-size:1.3em;font-weight:600;text-align:center;color:#cc3366;
-    padding:12px 0;border-bottom:1px solid #ffd6e6;}
-  .screens {flex:1;display:flex;width:300%;transition:transform .5s;}
-  .screen {width:100%;padding:20px;overflow-y:auto;}
+    width:180px;height:28px;background:#111;border-radius:0 0 20px 20px;}
+  .status-bar {height:28px;padding:0 14px;display:flex;justify-content:space-between;align-items:center;
+    font-size:0.8em;font-weight:600;color:#fff;text-shadow:0 0 5px #cc3366;}
+  .battery {width:24px;height:12px;border:2px solid #fff;border-radius:3px;position:relative;}
+  .battery::after {content:"";position:absolute;right:-5px;top:2px;width:3px;height:6px;background:#fff;}
+  .battery-level {height:100%;background:#fff;}
+  .app-header {font-size:1.3em;font-weight:600;text-align:center;color:#fff;
+    padding:12px 0;text-shadow:0 0 6px #cc3366,0 0 12px #ff99cc;}
+  .screens {flex:1;position:relative;background:rgba(255,255,255,0.85);backdrop-filter:blur(6px);}
+  .screen {position:absolute;inset:0;opacity:0;pointer-events:none;transform:translateX(20px);
+    transition:all .4s ease;padding:20px;overflow-y:auto;}
+  .screen.active {opacity:1;pointer-events:auto;transform:translateX(0);}
   .choice {display:flex;flex-direction:column;gap:16px;margin-top:120px;align-items:center;}
   .card {background:#fff5f8;border-radius:16px;padding:20px 30px;text-align:center;
     font-size:1.1em;color:#cc3366;font-weight:600;cursor:pointer;
     box-shadow:0 4px 10px rgba(255,150,180,.25);width:70%;}
-  .card:hover {transform:translateY(-3px);}
   form {display:grid;gap:12px;margin-top:20px;}
   input,select,button {padding:12px;border-radius:10px;border:1px solid #ffd6e6;font-size:0.95em;}
   button {background:linear-gradient(90deg,#ff99cc,#cc3366);color:#fff;font-weight:600;border:none;cursor:pointer;}
@@ -39,78 +51,144 @@
   .buyer strong {color:#cc3366;font-weight:600;display:block;margin-bottom:6px;}
   .purchase {display:flex;justify-content:space-between;align-items:center;padding:4px 0;}
   .delete-tx {background:none;border:none;color:#ff4d88;cursor:pointer;}
-  .progress {display:flex;gap:6px;margin-top:6px;}
-  .heart {width:20px;height:20px;fill:none;stroke:#ff99bb;stroke-width:2;}
-  .heart.filled {fill:#ff4d88;stroke:#ff4d88;}
+  .love-progress {display:flex;gap:6px;margin:8px 0;}
+  .love-progress .love {font-size:22px;color:#ffb6d9;text-shadow:0 0 3px #ffd6e6;}
+  .love-progress .love.filled {color:#ff4d88;text-shadow:0 0 8px #ff99cc,0 0 15px #ff66aa;}
+  .claim-btn {margin-top:6px;padding:6px 12px;border:none;border-radius:8px;font-weight:600;
+    background:linear-gradient(90deg,#ff99cc,#cc3366);color:white;cursor:pointer;}
+  .claim-btn:disabled {background:#eee;color:#aaa;cursor:not-allowed;}
   .nav {display:flex;justify-content:space-around;background:#fff0f5;border-top:1px solid #ffd6e6;padding:8px 0;}
   .nav button {background:none;border:none;flex:1;text-align:center;font-size:0.85em;font-weight:600;
     color:#cc3366;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;}
-  .nav button .material-icons {font-size:22px;}
   .nav button.active {color:#ff4d88;}
-  .nav button.active .material-icons {color:#ff4d88;}
-  .popup {position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;justify-content:center;align-items:center;}
-  .popup-content {background:#fff;padding:20px;border-radius:16px;text-align:center;
-    box-shadow:0 0 20px #ff99cc;font-size:1.1em;color:#cc3366;}
+  /* Popup */
+  .popup {position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;justify-content:center;align-items:center;z-index:10;}
+  .popup-content {background:#fff;padding:20px 30px;border-radius:16px;text-align:center;
+    box-shadow:0 0 20px #ff99cc;font-size:1.1em;color:#cc3366;animation:popupShow .6s ease;}
   .popup-content .material-icons {font-size:40px;color:#ff4d88;margin-bottom:10px;}
-  .search-bar {margin-bottom:10px;}
-  .search-bar input {width:100%;padding:10px;border-radius:8px;border:1px solid #ffd6e6;}
-  .floating-heart {position:absolute;bottom:40px;font-size:28px;color:#ff4d88;
-    text-shadow:0 0 6px rgba(255,100,150,0.6);opacity:0.9;
-    animation:floatUp 6s linear forwards;pointer-events:none;z-index:0;}
-  @keyframes floatUp {0%{transform:translateY(0) scale(1);opacity:1;}
-    100%{transform:translateY(-300px) scale(1.6);opacity:0;}}
+  @keyframes popupShow {0%{transform:scale(.7);opacity:0;}50%{transform:scale(1.1);opacity:1;}100%{transform:scale(1);opacity:1;}}
+  /* Love anim */
+  .love-anim {position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(0.5);
+    font-size:40px;color:#ff4d88;text-shadow:0 0 12px #ff99cc, 0 0 24px #ff66aa;
+    opacity:0;animation:loveFly 2s ease forwards;pointer-events:none;z-index:20;}
+  @keyframes loveFly {0%{transform:translate(-50%,-50%) scale(0.5);opacity:0;}
+    30%{opacity:1;transform:translate(-50%,-70%) scale(1);}
+    100%{transform:translate(-50%,-200%) scale(1.5);opacity:0;}}
+  /* Search */
+  .search-bar {display:flex;gap:6px;margin-bottom:10px;}
+  .search-input {flex:1;padding:10px;border:1px solid #ffd6e6;border-radius:8px;}
+  .search-btn,.refresh-btn {padding:0 12px;background:#ff99cc;color:#fff;border:none;border-radius:8px;cursor:pointer;}
+  /* Floating hearts */
+  .heart-float {position:absolute;color:rgba(255,100,150,0.4);animation:float 10s linear infinite;z-index:1;}
+  @keyframes float {0%{transform:translateY(100vh) scale(0.5);opacity:0}50%{opacity:1}100%{transform:translateY(-10vh) scale(1);opacity:0}}
+  /* Keychain */
+  .keychain {position:absolute;right:-60px;top:160px;width:60px;height:120px;
+    display:flex;justify-content:center;align-items:flex-start;animation:swing 3s ease-in-out infinite;transform-origin:top center;}
+  .keychain .charm {width:44px;height:44px;border-radius:50%;
+    background:radial-gradient(circle,#ff99cc 0%,#cc3366 80%);
+    box-shadow:0 0 12px rgba(255,100,150,.7);display:flex;justify-content:center;align-items:center;
+    font-size:22px;color:white;text-shadow:0 0 5px #fff;position:relative;overflow:hidden;}
+  @keyframes swing {0%{transform:rotate(5deg);}50%{transform:rotate(-5deg);}100%{transform:rotate(5deg);}}
+  /* Glitter keychain */
+  .keychain .charm::after {
+    content:"";
+    position:absolute;top:-50%;left:-50%;
+    width:200%;height:200%;
+    background:conic-gradient(from 0deg, transparent 0deg, rgba(255,255,255,0.6) 30deg, transparent 60deg);
+    animation:glitterRotate 4s linear infinite;
+  }
+  @keyframes glitterRotate {0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+  /* Claim reward glitter */
+  .claim-btn:not(:disabled) {position:relative;overflow:hidden;}
+  .claim-btn:not(:disabled)::after {
+    content:"";position:absolute;top:0;left:0;right:0;bottom:0;
+    background:radial-gradient(circle at 20% 20%, rgba(255,255,255,0.6), transparent 40%),
+               radial-gradient(circle at 80% 70%, rgba(255,255,255,0.5), transparent 40%);
+    background-size:200% 200%;animation:glitterPulse 3s infinite;
+  }
+  @keyframes glitterPulse {0%,100%{opacity:0.2;background-position:0% 0%;}50%{opacity:1;background-position:100% 100%;}}
+  /* Music button */
+  .music-btn {
+    position:absolute;bottom:70px;right:20px;
+    background:linear-gradient(135deg,#ff99cc,#cc3366);
+    color:white;border:none;border-radius:50%;width:50px;height:50px;
+    display:flex;justify-content:center;align-items:center;
+    box-shadow:0 0 12px rgba(255,100,150,.6);cursor:pointer;z-index:20;
+  }
+  .music-btn .material-icons {font-size:28px;}
 </style>
 </head>
 <body>
 
-<div class="phone">
-  <div class="notch"></div>
-  <div class="status-bar">
-    <div id="time">--:--</div>
-    <div class="battery"><div class="battery-level" id="batteryLevel" style="width:100%"></div></div>
-  </div>
-  <div class="app-header" id="mainHeader">Grace to be Eve</div>
+<!-- Floating hearts -->
+<div class="heart-float" style="left:15%;font-size:20px;animation-duration:12s;">♥</div>
+<div class="heart-float" style="left:35%;font-size:26px;animation-duration:16s;">♥</div>
+<div class="heart-float" style="left:55%;font-size:18px;animation-duration:20s;">♥</div>
+<div class="heart-float" style="left:75%;font-size:30px;animation-duration:22s;">♥</div>
+<div class="heart-float" style="left:90%;font-size:24px;animation-duration:25s;">♥</div>
 
-  <div class="screens" id="screens">
-    <!-- Home -->
-    <div class="screen">
-      <div class="choice">
-        <div class="card" onclick="showForm('new')">New Buyer</div>
-        <div class="card" onclick="showForm('existing')">Existing Buyer</div>
+<div class="phone-case">
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="status-bar">
+      <div id="time">--:--</div>
+      <div class="battery"><div class="battery-level" id="batteryLevel"></div></div>
+    </div>
+    <div class="app-header" id="mainHeader">Grace to be Eve</div>
+
+    <div class="screens">
+      <!-- Home -->
+      <div class="screen active" id="homeScreen">
+        <div class="choice">
+          <div class="card" onclick="showForm('new')">New Buyer</div>
+          <div class="card" onclick="showForm('existing')">Existing Buyer</div>
+        </div>
+        <form id="newBuyerForm" style="display:none;">
+          <input id="newName" placeholder="Full Name" required>
+          <input id="newUsername" placeholder="Username" required>
+          <input type="date" id="newDate" required>
+          <input id="newProduct" placeholder="Purchased Product" required>
+          <input id="newTotal" type="number" placeholder="Total Purchase (IDR)" required>
+          <button type="submit">Submit</button>
+        </form>
+        <form id="existingBuyerForm" style="display:none;">
+          <select id="existingUser" required></select>
+          <input type="date" id="existDate" required>
+          <input id="existProduct" placeholder="Purchased Product" required>
+          <input id="existTotal" type="number" placeholder="Total Purchase (IDR)" required>
+          <button type="submit">Add Purchase</button>
+        </form>
       </div>
-      <form id="newBuyerForm" style="display:none;">
-        <input id="newName" placeholder="Full Name" required>
-        <input id="newUsername" placeholder="Username" required>
-        <input type="date" id="newDate" required>
-        <input id="newProduct" placeholder="Purchased Product" required>
-        <input id="newTotal" type="number" placeholder="Total Purchase (IDR)" required>
-        <button type="submit">Submit</button>
-      </form>
-      <form id="existingBuyerForm" style="display:none;">
-        <select id="existingUser" required></select>
-        <input type="date" id="existDate" required>
-        <input id="existProduct" placeholder="Purchased Product" required>
-        <input id="existTotal" type="number" placeholder="Total Purchase (IDR)" required>
-        <button type="submit">Add Purchase</button>
-      </form>
+      <!-- Buyers -->
+      <div class="screen" id="buyersScreen">
+        <div class="search-bar">
+          <input id="buyerSearch" class="search-input" placeholder="Search buyer...">
+          <button type="button" class="search-btn" onclick="applyBuyerSearch()">Search</button>
+          <button type="button" class="refresh-btn" onclick="resetBuyerSearch()">↻</button>
+        </div>
+        <div class="buyer-list" id="buyerList"></div>
+      </div>
+      <!-- Rewards -->
+      <div class="screen" id="rewardsScreen">
+        <div class="search-bar">
+          <input id="rewardSearch" class="search-input" placeholder="Search rewards...">
+          <button type="button" class="search-btn" onclick="applyRewardSearch()">Search</button>
+          <button type="button" class="refresh-btn" onclick="resetRewardSearch()">↻</button>
+        </div>
+        <div class="buyer-list" id="rewardList"></div>
+      </div>
     </div>
 
-    <!-- Buyers -->
-    <div class="screen">
-      <div class="search-bar"><input type="text" id="searchInput" placeholder="Search username..."></div>
-      <div class="buyer-list" id="buyerList"></div>
+    <div class="nav">
+      <button class="active" onclick="showScreen('homeScreen','Grace to be Eve',this)">Home</button>
+      <button onclick="showScreen('buyersScreen','List of Buyers',this)">Buyers</button>
+      <button onclick="showScreen('rewardsScreen','Rewards',this)">Rewards</button>
     </div>
 
-    <!-- Rewards -->
-    <div class="screen"><div class="buyer-list" id="rewardList"></div></div>
+    <!-- Music button -->
+    <button id="musicBtn" class="music-btn"><span class="material-icons">music_note</span></button>
   </div>
-
-  <!-- Nav -->
-  <div class="nav">
-    <button class="active" onclick="showScreen(0,'Grace to be Eve')"><span class="material-icons">home</span>Home</button>
-    <button onclick="showScreen(1,'List of Buyers')"><span class="material-icons">people</span>Buyers</button>
-    <button onclick="showScreen(2,'Rewards')"><span class="material-icons">card_giftcard</span>Rewards</button>
-  </div>
+  <div class="keychain"><div class="charm">♥</div></div>
 </div>
 
 <!-- Popup -->
@@ -122,159 +200,143 @@
   </div>
 </div>
 
+<!-- Sounds -->
+<audio id="chimeSound" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
+<audio id="bgMusic" loop>
+  <source src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Komiku/Its_time_for_adventure_/Komiku_-_06_-_Friends.mp3" type="audio/mpeg">
+</audio>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
 import { getDatabase, ref, set, push, onValue, remove } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
 
-document.addEventListener("DOMContentLoaded", () => {
-  // Firebase config
-  const firebaseConfig = {
-    apiKey: "AIzaSyD1GAFeHLJOsjjUzuhb2Uiz_bAJFeelgBo",
-    authDomain: "evetracker-275cf.firebaseapp.com",
-    databaseURL: "https://evetracker-275cf-default-rtdb.firebaseio.com",
-    projectId: "evetracker-275cf",
-    storageBucket: "evetracker-275cf.appspot.com",
-    messagingSenderId: "126245705022",
-    appId: "1:126245705022:web:dd4fdc886ff25c7c32886f",
-    measurementId: "G-7T553PB0MQ"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyD1GAFeHLJOsjjUzuhb2Uiz_bAJFeelgBo",
+  authDomain: "evetracker-275cf.firebaseapp.com",
+  databaseURL: "https://evetracker-275cf-default-rtdb.firebaseio.com",
+  projectId: "evetracker-275cf",
+  storageBucket: "evetracker-275cf.appspot.com",
+  messagingSenderId: "126245705022",
+  appId: "1:126245705022:web:dd4fdc886ff25c7c32886f",
+  measurementId: "G-7T553PB0MQ"
+};
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);
+const formatIDR=new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR'});
+let buyers={}, searchBuyer="", searchReward="";
 
-  const formatIDR = new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR'});
-  let buyers = {};
+onValue(ref(db,"buyers"),snap=>{buyers=snap.val()||{};renderBuyers();renderRewards();updateDropdown();});
 
-  // realtime listener
-  onValue(ref(db,"buyers"),snapshot=>{
-    buyers = snapshot.val() || {};
-    console.log("Data loaded:", buyers);
-    renderBuyers();
-    renderRewards();
-    updateDropdown();
+newBuyerForm.onsubmit=e=>{
+  e.preventDefault();
+  const u=newUsername.value;
+  if(!buyers[u]) set(ref(db,"buyers/"+u),{name:newName.value});
+  const tx=push(ref(db,"buyers/"+u+"/purchases"));
+  set(tx,{date:newDate.value,product:newProduct.value,total:parseInt(newTotal.value)||0});
+  triggerLoveAnim();e.target.reset();
+};
+existingBuyerForm.onsubmit=e=>{
+  e.preventDefault();
+  const u=existingUser.value;
+  const tx=push(ref(db,"buyers/"+u+"/purchases"));
+  set(tx,{date:existDate.value,product:existProduct.value,total:parseInt(existTotal.value)||0});
+  triggerLoveAnim();e.target.reset();
+};
+
+function renderBuyers(){
+  buyerList.innerHTML="";let found=false;
+  Object.keys(buyers).forEach(u=>{
+    const b=buyers[u];
+    if(searchBuyer && !b.name.toLowerCase().includes(searchBuyer)&&!u.toLowerCase().includes(searchBuyer)) return;
+    found=true;let txHTML="";
+    if(b.purchases){
+      Object.keys(b.purchases).forEach(id=>{
+        const p=b.purchases[id];
+        txHTML+=`<div class="purchase">${p.date} - ${p.product} (${formatIDR.format(p.total)}) 
+        <button class="delete-tx" onclick="deleteTransaction('${u}','${id}')">delete</button></div>`;
+      });
+    }
+    buyerList.innerHTML+=`<div class="buyer"><strong>${b.name}</strong> (@${u})${txHTML}</div>`;
   });
+  if(!found) buyerList.innerHTML="<p>No results found</p>";
+}
 
-  // new buyer
-  newBuyerForm.onsubmit=e=>{
-    e.preventDefault();
-    const name=newName.value,u=newUsername.value,d=newDate.value,p=newProduct.value,t=parseInt(newTotal.value)||0;
-    if(!buyers[u]){set(ref(db,"buyers/"+u),{name:name});}
-    const tx=push(ref(db,"buyers/"+u+"/purchases"));
-    set(tx,{date:d,product:p,total:t});
-    spawnHeart();
-    e.target.reset();
-  };
-
-  // existing buyer
-  existingBuyerForm.onsubmit=e=>{
-    e.preventDefault();
-    const u=existingUser.value,d=existDate.value,p=existProduct.value,t=parseInt(existTotal.value)||0;
-    const tx=push(ref(db,"buyers/"+u+"/purchases"));
-    set(tx,{date:d,product:p,total:t});
-    spawnHeart();
-    e.target.reset();
-  };
-
-  function deleteTransaction(user,txId){
-    remove(ref(db,"buyers/"+user+"/purchases/"+txId));
-  }
-
-  function renderBuyers(filter=""){
-    const buyerList=document.getElementById("buyerList");
-    if(!buyerList){console.error("buyerList not found!");return;}
-    buyerList.innerHTML="";
-    if (!buyers || typeof buyers!=="object") return;
-
-    Object.keys(buyers).forEach(u=>{
-      if(!u.toLowerCase().includes(filter)) return;
-      const b=buyers[u];
-      console.log("Rendering buyer:", u, b);
-      let txHTML="";
-      if(b.purchases){
-        Object.keys(b.purchases).forEach(id=>{
-          const p=b.purchases[id];
-          txHTML+=`
-            <div class="purchase">
-              <span>${p.date} - ${p.product} (${formatIDR.format(p.total)})</span>
-              <button class="delete-tx material-icons" onclick="deleteTransaction('${u}','${id}')">delete</button>
-            </div>`;
-        });
-      }
-      buyerList.innerHTML+=`
-        <div class="buyer">
-          <strong>${b.name}</strong> (@${u})
-          ${txHTML}
-        </div>`;
-    });
-  }
-
-  function renderRewards(){
-    const rewardList=document.getElementById("rewardList");
-    if(!rewardList){console.error("rewardList not found!");return;}
-    rewardList.innerHTML="";
-    if (!buyers || typeof buyers!=="object") return;
-
-    Object.keys(buyers).forEach(u=>{
-      const b=buyers[u];
-      const count=b.purchases?Object.keys(b.purchases).length:0;
-      if(count===6) showPopup(b.name);
-
-      const hearts=[...Array(6)].map((_,i)=>`
-        <svg class="heart ${i<count?'filled':''}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <path d="M12 21s-6.7-5.1-10-9.4C-1.1 7.2 2.4 2 7.5 2c2.3 0 4.1 1.3 4.5 3.1C12.4 3.3 14.2 2 16.5 2 21.6 2 25.1 7.2 22 11.6 18.7 15.9 12 21 12 21z"/>
-        </svg>`).join('');
-      
-      rewardList.innerHTML+=`
-        <div class="buyer">
-          <strong>${b.name}</strong> (@${u})<br>
-          <div class="progress">${hearts}</div>
-        </div>`;
-    });
-  }
-
-  function updateDropdown(){
-    const existingUser=document.getElementById("existingUser");
-    if(!existingUser) return;
-    existingUser.innerHTML="";
-    if (!buyers || typeof buyers!=="object") return;
-    Object.keys(buyers).forEach(u=>{
-      existingUser.innerHTML+=`<option value="${u}">${buyers[u].name} (@${u})</option>`;
-    });
-  }
-
-  document.getElementById("searchInput").addEventListener('input',e=>{
-    renderBuyers(e.target.value.toLowerCase());
+function renderRewards(){
+  rewardList.innerHTML="";let found=false;
+  Object.keys(buyers).forEach(u=>{
+    const b=buyers[u], purchases=b.purchases?Object.values(b.purchases):[];
+    const count=purchases.length,total=purchases.reduce((s,p)=>s+(p.total||0),0);
+    if(searchReward && !b.name.toLowerCase().includes(searchReward)&&!u.toLowerCase().includes(searchReward)) return;
+    found=true;
+    let loves="";for(let i=0;i<6;i++){loves+=`<span class="love ${i<count?'filled':''}">♥</span>`;}
+    const claimDisabled=count<6?"disabled":"";
+    const claimBtn=`<button class="claim-btn" ${claimDisabled} onclick="claimReward('${b.name}')">Claim Reward</button>`;
+    rewardList.innerHTML+=`
+      <div class="buyer"><strong>${b.name}</strong> (@${u})<br>
+        <div class="love-progress">${loves}</div>
+        <div>Total Belanja: <b>${formatIDR.format(total)}</b></div>
+        ${claimBtn}
+      </div>`;
   });
+  if(!found) rewardList.innerHTML="<p>No results found</p>";
+}
 
-  // UI helpers
-  window.showForm=function(t){newBuyerForm.style.display=t==="new"?"block":"none";existingBuyerForm.style.display=t==="existing"?"block":"none";}
-  window.showScreen=function(i,t){screens.style.transform=`translateX(-${i*100}%)`;document.querySelectorAll('.nav button').forEach((b,j)=>b.classList.toggle('active',j===i));mainHeader.innerText=t;}
-  window.showPopup=function(n){popupMsg.innerText=`Congrats ${n}, you collected 6 stamps!`;popup.style.display='flex';}
-  window.closePopup=function(){popup.style.display='none';}
-  window.deleteTransaction=deleteTransaction;
+function updateDropdown(){
+  existingUser.innerHTML="";
+  Object.keys(buyers).forEach(u=>{existingUser.innerHTML+=`<option value="${u}">${buyers[u].name} (@${u})</option>`;});
+}
 
-  // Floating hearts
-  function spawnHeart(){
-    const phone=document.querySelector(".phone");
-    const heart=document.createElement("span");
-    heart.className="floating-heart material-icons";
-    heart.style.left=Math.random()*350+"px";
-    heart.textContent="favorite";
-    phone.appendChild(heart);
-    setTimeout(()=>heart.remove(),6000);
+function deleteTransaction(u,id){ remove(ref(db,"buyers/"+u+"/purchases/"+id)); }
+window.deleteTransaction=deleteTransaction;
+
+function claimReward(name){ showPopup(name); }
+window.claimReward=claimReward;
+
+function showPopup(name){popupMsg.innerText=`Congrats ${name}, you collected 6 stamps! 🎁`;popup.style.display="flex";}
+window.closePopup=()=>popup.style.display="none";
+
+function showScreen(id,title,btn){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");mainHeader.innerText=title;
+}
+window.showScreen=showScreen;
+
+function applyBuyerSearch(){searchBuyer=buyerSearch.value.toLowerCase();renderBuyers();}
+function resetBuyerSearch(){buyerSearch.value="";searchBuyer="";renderBuyers();}
+function applyRewardSearch(){searchReward=rewardSearch.value.toLowerCase();renderRewards();}
+function resetRewardSearch(){rewardSearch.value="";searchReward="";renderRewards();}
+window.applyBuyerSearch=applyBuyerSearch;window.resetBuyerSearch=resetBuyerSearch;
+window.applyRewardSearch=applyRewardSearch;window.resetRewardSearch=resetRewardSearch;
+
+function updateClock(){const n=new Date();time.innerText=`${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}`;}
+setInterval(updateClock,1000);updateClock();
+
+function triggerLoveAnim(){
+  const love=document.createElement("div");
+  love.className="love-anim";love.innerHTML="♥";
+  document.body.appendChild(love);
+  document.getElementById("chimeSound").play();
+  setTimeout(()=>love.remove(),2000);
+}
+
+/* Music control */
+const music=document.getElementById("bgMusic");
+const musicBtn=document.getElementById("musicBtn");
+let playing=false;
+musicBtn.onclick=()=>{
+  if(!playing){
+    music.play();
+    playing=true;
+    musicBtn.innerHTML='<span class="material-icons">pause</span>';
+  } else {
+    music.pause();
+    playing=false;
+    musicBtn.innerHTML='<span class="material-icons">music_note</span>';
   }
-  setInterval(spawnHeart,5000);
-
-  // Clock
-  function updateClock(){
-    const now=new Date();
-    const hh=String(now.getHours()).padStart(2,'0');
-    const mm=String(now.getMinutes()).padStart(2,'0');
-    document.getElementById("time").innerText=`${hh}:${mm}`;
-  }
-  setInterval(updateClock,1000);
-  updateClock();
-});
+};
 </script>
 </body>
 </html>
