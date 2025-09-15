@@ -14,18 +14,13 @@
   }
   @keyframes gradientMove {0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 
-  /* phone case */
-  .phone-case {
-    padding:14px;border-radius:50px;
+  .phone-case {padding:14px;border-radius:50px;
     background:linear-gradient(135deg,#ffd6e6,#ffb6d9,#fff);
     box-shadow:0 0 40px rgba(255,100,150,.4), inset 0 0 15px rgba(255,200,220,.8);
-    position:relative;
-  }
-  .phone {
-    width:420px;height:820px;border-radius:40px;overflow:hidden;
+    position:relative;}
+  .phone {width:420px;height:820px;border-radius:40px;overflow:hidden;
     display:flex;flex-direction:column;position:relative;z-index:5;
-    background:url('https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=800&q=80') center/cover no-repeat;
-  }
+    background:url('https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=800&q=80') center/cover no-repeat;}
   .notch {position:absolute;top:0;left:50%;transform:translateX(-50%);
     width:180px;height:28px;background:#111;border-radius:0 0 20px 20px;}
   .status-bar {height:28px;padding:0 14px;display:flex;justify-content:space-between;align-items:center;
@@ -59,62 +54,37 @@
   .claim-btn:disabled {background:#eee;color:#aaa;cursor:not-allowed;}
   .nav {display:flex;justify-content:space-around;background:#fff0f5;border-top:1px solid #ffd6e6;padding:8px 0;}
   .nav button {background:none;border:none;flex:1;text-align:center;font-size:0.85em;font-weight:600;
-    color:#cc3366;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;}
+    color:#cc3366;cursor:pointer;}
   .nav button.active {color:#ff4d88;}
-  /* Popup */
-  .popup {position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;justify-content:center;align-items:center;z-index:10;}
-  .popup-content {background:#fff;padding:20px 30px;border-radius:16px;text-align:center;
-    box-shadow:0 0 20px #ff99cc;font-size:1.1em;color:#cc3366;animation:popupShow .6s ease;}
-  .popup-content .material-icons {font-size:40px;color:#ff4d88;margin-bottom:10px;}
-  @keyframes popupShow {0%{transform:scale(.7);opacity:0;}50%{transform:scale(1.1);opacity:1;}100%{transform:scale(1);opacity:1;}}
-  /* Love anim */
-  .love-anim {position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(0.5);
-    font-size:40px;color:#ff4d88;text-shadow:0 0 12px #ff99cc, 0 0 24px #ff66aa;
-    opacity:0;animation:loveFly 2s ease forwards;pointer-events:none;z-index:20;}
-  @keyframes loveFly {0%{transform:translate(-50%,-50%) scale(0.5);opacity:0;}
-    30%{opacity:1;transform:translate(-50%,-70%) scale(1);}
-    100%{transform:translate(-50%,-200%) scale(1.5);opacity:0;}}
-  /* Search */
-  .search-bar {display:flex;gap:6px;margin-bottom:10px;}
-  .search-input {flex:1;padding:10px;border:1px solid #ffd6e6;border-radius:8px;}
-  .search-btn,.refresh-btn {padding:0 12px;background:#ff99cc;color:#fff;border:none;border-radius:8px;cursor:pointer;}
   /* Floating hearts */
-  .heart-float {position:absolute;color:rgba(255,100,150,0.4);animation:float 10s linear infinite;z-index:1;}
-  @keyframes float {0%{transform:translateY(100vh) scale(0.5);opacity:0}50%{opacity:1}100%{transform:translateY(-10vh) scale(1);opacity:0}}
+  .heart-float {position:absolute;color:rgba(255,100,150,0.4);
+    animation:float 10s linear infinite;z-index:1;}
+  @keyframes float {0%{transform:translateY(100vh) scale(0.5);opacity:0}
+    50%{opacity:1}
+    100%{transform:translateY(-10vh) scale(1);opacity:0}}
   /* Keychain */
   .keychain {position:absolute;right:-60px;top:160px;width:60px;height:120px;
-    display:flex;justify-content:center;align-items:flex-start;animation:swing 3s ease-in-out infinite;transform-origin:top center;}
-  .keychain .charm {width:44px;height:44px;border-radius:50%;
+    display:flex;justify-content:center;align-items:flex-start;
+    animation:swing 3s ease-in-out infinite;transform-origin:top center;}
+  .keychain .charm {
+    width:44px;height:44px;border-radius:50%;
     background:radial-gradient(circle,#ff99cc 0%,#cc3366 80%);
-    box-shadow:0 0 12px rgba(255,100,150,.7);display:flex;justify-content:center;align-items:center;
-    font-size:22px;color:white;text-shadow:0 0 5px #fff;position:relative;overflow:hidden;}
+    box-shadow:0 0 12px rgba(255,100,150,.7);
+    display:flex;justify-content:center;align-items:center;
+    font-size:22px;color:white;text-shadow:0 0 5px #fff;position:relative;overflow:hidden;
+  }
   @keyframes swing {0%{transform:rotate(5deg);}50%{transform:rotate(-5deg);}100%{transform:rotate(5deg);}}
-  /* Glitter keychain */
   .keychain .charm::after {
-    content:"";
-    position:absolute;top:-50%;left:-50%;
-    width:200%;height:200%;
+    content:"";position:absolute;top:-50%;left:-50%;width:200%;height:200%;
     background:conic-gradient(from 0deg, transparent 0deg, rgba(255,255,255,0.6) 30deg, transparent 60deg);
     animation:glitterRotate 4s linear infinite;
   }
   @keyframes glitterRotate {0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
-  /* Claim reward glitter */
-  .claim-btn:not(:disabled) {position:relative;overflow:hidden;}
-  .claim-btn:not(:disabled)::after {
-    content:"";position:absolute;top:0;left:0;right:0;bottom:0;
-    background:radial-gradient(circle at 20% 20%, rgba(255,255,255,0.6), transparent 40%),
-               radial-gradient(circle at 80% 70%, rgba(255,255,255,0.5), transparent 40%);
-    background-size:200% 200%;animation:glitterPulse 3s infinite;
-  }
-  @keyframes glitterPulse {0%,100%{opacity:0.2;background-position:0% 0%;}50%{opacity:1;background-position:100% 100%;}}
   /* Music button */
-  .music-btn {
-    position:absolute;bottom:70px;right:20px;
-    background:linear-gradient(135deg,#ff99cc,#cc3366);
-    color:white;border:none;border-radius:50%;width:50px;height:50px;
+  .music-btn {position:absolute;bottom:70px;right:20px;
+    background:linear-gradient(135deg,#ff99cc,#cc3366);color:white;border:none;border-radius:50%;width:50px;height:50px;
     display:flex;justify-content:center;align-items:center;
-    box-shadow:0 0 12px rgba(255,100,150,.6);cursor:pointer;z-index:20;
-  }
+    box-shadow:0 0 12px rgba(255,100,150,.6);cursor:pointer;z-index:20;}
   .music-btn .material-icons {font-size:28px;}
 </style>
 </head>
@@ -161,20 +131,10 @@
       </div>
       <!-- Buyers -->
       <div class="screen" id="buyersScreen">
-        <div class="search-bar">
-          <input id="buyerSearch" class="search-input" placeholder="Search buyer...">
-          <button type="button" class="search-btn" onclick="applyBuyerSearch()">Search</button>
-          <button type="button" class="refresh-btn" onclick="resetBuyerSearch()">↻</button>
-        </div>
         <div class="buyer-list" id="buyerList"></div>
       </div>
       <!-- Rewards -->
       <div class="screen" id="rewardsScreen">
-        <div class="search-bar">
-          <input id="rewardSearch" class="search-input" placeholder="Search rewards...">
-          <button type="button" class="search-btn" onclick="applyRewardSearch()">Search</button>
-          <button type="button" class="refresh-btn" onclick="resetRewardSearch()">↻</button>
-        </div>
         <div class="buyer-list" id="rewardList"></div>
       </div>
     </div>
@@ -185,23 +145,11 @@
       <button onclick="showScreen('rewardsScreen','Rewards',this)">Rewards</button>
     </div>
 
-    <!-- Music button -->
     <button id="musicBtn" class="music-btn"><span class="material-icons">music_note</span></button>
   </div>
   <div class="keychain"><div class="charm">♥</div></div>
 </div>
 
-<!-- Popup -->
-<div class="popup" id="popup">
-  <div class="popup-content">
-    <span class="material-icons">card_giftcard</span>
-    <p id="popupMsg"></p>
-    <button onclick="closePopup()">Close</button>
-  </div>
-</div>
-
-<!-- Sounds -->
-<audio id="chimeSound" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
 <audio id="bgMusic" loop>
   <source src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Komiku/Its_time_for_adventure_/Komiku_-_06_-_Friends.mp3" type="audio/mpeg">
 </audio>
@@ -224,9 +172,14 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 const formatIDR=new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR'});
-let buyers={}, searchBuyer="", searchReward="";
+let buyers={};
 
-onValue(ref(db,"buyers"),snap=>{buyers=snap.val()||{};renderBuyers();renderRewards();updateDropdown();});
+onValue(ref(db,"buyers"),snap=>{
+  buyers=snap.val()||{};
+  renderBuyers();
+  renderRewards();
+  updateDropdown();
+});
 
 newBuyerForm.onsubmit=e=>{
   e.preventDefault();
@@ -234,67 +187,57 @@ newBuyerForm.onsubmit=e=>{
   if(!buyers[u]) set(ref(db,"buyers/"+u),{name:newName.value});
   const tx=push(ref(db,"buyers/"+u+"/purchases"));
   set(tx,{date:newDate.value,product:newProduct.value,total:parseInt(newTotal.value)||0});
-  triggerLoveAnim();e.target.reset();
+  e.target.reset();
 };
 existingBuyerForm.onsubmit=e=>{
   e.preventDefault();
   const u=existingUser.value;
   const tx=push(ref(db,"buyers/"+u+"/purchases"));
   set(tx,{date:existDate.value,product:existProduct.value,total:parseInt(existTotal.value)||0});
-  triggerLoveAnim();e.target.reset();
+  e.target.reset();
 };
 
+function showForm(type){
+  newBuyerForm.style.display = type==="new" ? "grid":"none";
+  existingBuyerForm.style.display = type==="existing" ? "grid":"none";
+}
+window.showForm=showForm;
+
 function renderBuyers(){
-  buyerList.innerHTML="";let found=false;
+  buyerList.innerHTML="";
   Object.keys(buyers).forEach(u=>{
     const b=buyers[u];
-    if(searchBuyer && !b.name.toLowerCase().includes(searchBuyer)&&!u.toLowerCase().includes(searchBuyer)) return;
-    found=true;let txHTML="";
+    let txHTML="";
     if(b.purchases){
       Object.keys(b.purchases).forEach(id=>{
         const p=b.purchases[id];
         txHTML+=`<div class="purchase">${p.date} - ${p.product} (${formatIDR.format(p.total)}) 
-        <button class="delete-tx" onclick="deleteTransaction('${u}','${id}')">delete</button></div>`;
+          <button class="delete-tx" onclick="deleteTransaction('${u}','${id}')">delete</button></div>`;
       });
     }
     buyerList.innerHTML+=`<div class="buyer"><strong>${b.name}</strong> (@${u})${txHTML}</div>`;
   });
-  if(!found) buyerList.innerHTML="<p>No results found</p>";
 }
-
 function renderRewards(){
-  rewardList.innerHTML="";let found=false;
+  rewardList.innerHTML="";
   Object.keys(buyers).forEach(u=>{
     const b=buyers[u], purchases=b.purchases?Object.values(b.purchases):[];
     const count=purchases.length,total=purchases.reduce((s,p)=>s+(p.total||0),0);
-    if(searchReward && !b.name.toLowerCase().includes(searchReward)&&!u.toLowerCase().includes(searchReward)) return;
-    found=true;
     let loves="";for(let i=0;i<6;i++){loves+=`<span class="love ${i<count?'filled':''}">♥</span>`;}
     const claimDisabled=count<6?"disabled":"";
-    const claimBtn=`<button class="claim-btn" ${claimDisabled} onclick="claimReward('${b.name}')">Claim Reward</button>`;
-    rewardList.innerHTML+=`
-      <div class="buyer"><strong>${b.name}</strong> (@${u})<br>
-        <div class="love-progress">${loves}</div>
-        <div>Total Belanja: <b>${formatIDR.format(total)}</b></div>
-        ${claimBtn}
-      </div>`;
+    rewardList.innerHTML+=`<div class="buyer"><strong>${b.name}</strong> (@${u})
+      <div class="love-progress">${loves}</div>
+      <div>Total: <b>${formatIDR.format(total)}</b></div>
+      <button class="claim-btn" ${claimDisabled}>Claim</button>
+    </div>`;
   });
-  if(!found) rewardList.innerHTML="<p>No results found</p>";
 }
-
 function updateDropdown(){
   existingUser.innerHTML="";
   Object.keys(buyers).forEach(u=>{existingUser.innerHTML+=`<option value="${u}">${buyers[u].name} (@${u})</option>`;});
 }
-
 function deleteTransaction(u,id){ remove(ref(db,"buyers/"+u+"/purchases/"+id)); }
 window.deleteTransaction=deleteTransaction;
-
-function claimReward(name){ showPopup(name); }
-window.claimReward=claimReward;
-
-function showPopup(name){popupMsg.innerText=`Congrats ${name}, you collected 6 stamps! 🎁`;popup.style.display="flex";}
-window.closePopup=()=>popup.style.display="none";
 
 function showScreen(id,title,btn){
   document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
@@ -304,38 +247,15 @@ function showScreen(id,title,btn){
 }
 window.showScreen=showScreen;
 
-function applyBuyerSearch(){searchBuyer=buyerSearch.value.toLowerCase();renderBuyers();}
-function resetBuyerSearch(){buyerSearch.value="";searchBuyer="";renderBuyers();}
-function applyRewardSearch(){searchReward=rewardSearch.value.toLowerCase();renderRewards();}
-function resetRewardSearch(){rewardSearch.value="";searchReward="";renderRewards();}
-window.applyBuyerSearch=applyBuyerSearch;window.resetBuyerSearch=resetBuyerSearch;
-window.applyRewardSearch=applyRewardSearch;window.resetRewardSearch=resetRewardSearch;
-
 function updateClock(){const n=new Date();time.innerText=`${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}`;}
 setInterval(updateClock,1000);updateClock();
 
-function triggerLoveAnim(){
-  const love=document.createElement("div");
-  love.className="love-anim";love.innerHTML="♥";
-  document.body.appendChild(love);
-  document.getElementById("chimeSound").play();
-  setTimeout(()=>love.remove(),2000);
-}
-
-/* Music control */
 const music=document.getElementById("bgMusic");
 const musicBtn=document.getElementById("musicBtn");
 let playing=false;
 musicBtn.onclick=()=>{
-  if(!playing){
-    music.play();
-    playing=true;
-    musicBtn.innerHTML='<span class="material-icons">pause</span>';
-  } else {
-    music.pause();
-    playing=false;
-    musicBtn.innerHTML='<span class="material-icons">music_note</span>';
-  }
+  if(!playing){music.play();playing=true;musicBtn.innerHTML='<span class="material-icons">pause</span>';}
+  else {music.pause();playing=false;musicBtn.innerHTML='<span class="material-icons">music_note</span>';}
 };
 </script>
 </body>
